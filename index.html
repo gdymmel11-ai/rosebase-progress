@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoseBase AWS Migration — Progress Report</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; background: #f7f7f5; color: #1b2a4a; padding: 2.5rem; max-width: 900px; margin: 0 auto; }
+  h1 { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 1.8rem; margin-bottom: 0.25rem; color: #0a1628; letter-spacing: -0.02em; }
+  .subtitle { color: #5a6a85; margin-bottom: 0.5rem; font-size: 0.95rem; font-style: italic; }
+  .updated { color: #8899ab; font-size: 0.8rem; margin-bottom: 2.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+  /* Overall progress */
+  .overall { margin-bottom: 2.5rem; }
+  .overall-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .overall-label span { font-size: 1.1rem; font-weight: 600; color: #1b2a4a; }
+  .bar-track { background: #e2e6ec; border-radius: 8px; height: 24px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, #1b2a4a, #2d4a7a); transition: width 0.6s ease; }
+
+  /* Phase cards */
+  .phases { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .phase { display: grid; grid-template-columns: 36px 1fr 90px; align-items: center; background: #ffffff; border: 1px solid #e2e6ec; border-radius: 8px; padding: 0.85rem 1rem; gap: 0.75rem; }
+  .phase-num { font-weight: 700; color: #8899ab; font-size: 0.85rem; }
+  .phase-name { font-size: 0.9rem; color: #1b2a4a; }
+  .phase-note { font-size: 0.8rem; color: #8899ab; font-style: italic; margin-top: 0.15rem; }
+  .badge { font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 4px; text-align: center; text-transform: uppercase; letter-spacing: 0.05em; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .badge-done { background: #e6f4ed; color: #1a7a4a; }
+  .badge-progress { background: #e0eaf5; color: #1b2a4a; }
+  .badge-upcoming { background: #f0f1f3; color: #5a6a85; }
+  .badge-pending { background: #f0f1f3; color: #8899ab; }
+
+  /* Milestones */
+  .section-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; color: #1b2a4a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; border-bottom: 2px solid #1b2a4a; padding-bottom: 0.4rem; }
+  .milestones { margin-bottom: 2.5rem; }
+  .milestone { display: flex; gap: 1rem; margin-bottom: 0.85rem; padding-left: 0.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .ml-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .ml-done { background: #1a7a4a; }
+  .ml-pending { background: #d0d5dd; }
+  .ml-text { font-size: 0.9rem; line-height: 1.5; color: #1b2a4a; }
+
+  /* Cost table */
+  .cost-table { width: 100%; border-collapse: collapse; margin-bottom: 2.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .cost-table th { text-align: left; color: #5a6a85; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.5rem 0; border-bottom: 2px solid #1b2a4a; }
+  .cost-table td { padding: 0.6rem 0; border-bottom: 1px solid #e2e6ec; font-size: 0.9rem; }
+  .cost-table tr:last-child td { border-bottom: 2px solid #1b2a4a; font-weight: 700; color: #1b2a4a; }
+  .cost-val { text-align: right; }
+
+  /* Action items */
+  .actions { margin-bottom: 1.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .action-item { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.6rem; background: #ffffff; border-left: 3px solid #c5952a; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin-bottom: 0.5rem; font-size: 0.9rem; border-top: 1px solid #e2e6ec; border-right: 1px solid #e2e6ec; border-bottom: 1px solid #e2e6ec; cursor: pointer; }
+  .action-item input[type=checkbox] { margin-top: 0.25rem; width: 18px; height: 18px; accent-color: #1b2a4a; cursor: pointer; flex-shrink: 0; }
+  .action-item input:checked + .action-text { text-decoration: line-through; color: #8899ab; }
+  .action-text { flex: 1; line-height: 1.5; }
+  .action-reply { width: 100%; margin-top: 0.4rem; margin-left: 28px; padding: 0.5rem 0.65rem; border: 1px solid #d0d5dd; border-radius: 6px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.85rem; color: #1b2a4a; resize: vertical; min-height: 36px; max-height: 120px; background: #fafafa; }
+  .action-reply:focus { outline: none; border-color: #2d4a7a; background: #ffffff; }
+  .action-reply::placeholder { color: #aab4c2; }
+  .action-item-wrap { margin-bottom: 0.5rem; background: #ffffff; border-left: 3px solid #c5952a; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; border-top: 1px solid #e2e6ec; border-right: 1px solid #e2e6ec; border-bottom: 1px solid #e2e6ec; }
+  .action-item-wrap .action-item { padding: 0; border: none; background: none; margin: 0; }
+  .action-item-wrap .action-reply { margin-left: 28px; margin-top: 0.5rem; }
+  .action-details { margin-left: 28px; margin-top: 0.5rem; }
+  .action-details summary { color: #2d4a7a; font-size: 0.8rem; cursor: pointer; font-weight: 500; }
+  .action-details summary:hover { color: #1b2a4a; }
+  .action-details p { margin-top: 0.5rem; font-size: 0.85rem; color: #5a6a85; line-height: 1.6; }
+  .send-btn { display: block; margin: 0 auto 0.5rem; padding: 0.65rem 1.8rem; background: #1b2a4a; color: #f7f7f5; border: none; border-radius: 6px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; letter-spacing: 0.02em; }
+  .send-btn:hover { background: #2d4a7a; }
+  .send-confirm { text-align: center; color: #1a7a4a; font-size: 0.85rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 1.5rem; margin-bottom: 1.5rem; }
+
+  /* Footer */
+  .footer { color: #8899ab; font-size: 0.75rem; text-align: center; padding-top: 2rem; border-top: 1px solid #d0d5dd; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+</style>
+</head>
+<body>
+
+<h1>RoseBase AWS Migration</h1>
+<p class="subtitle">Replit to AWS &mdash; 8-Phase Production Cutover</p>
+<p class="updated">Prepared by Gabe Dymmel &bull; Week 1 Update</p>
+
+<!-- Overall Progress -->
+<div class="overall">
+  <div class="overall-label">
+    <span>Overall Progress</span>
+    <span style="color: #1b2a4a; font-size: 1.3rem; font-weight: 700;">24%</span>
+  </div>
+  <div class="bar-track">
+    <div class="bar-fill" style="width: 24%"></div>
+  </div>
+</div>
+
+<!-- Phase Breakdown -->
+<div class="section-title">Phase Status</div>
+<div class="phases">
+  <div class="phase">
+    <span class="phase-num">P1</span>
+    <div>
+      <div class="phase-name">Platform Migration</div>
+    </div>
+    <span class="badge badge-done">Complete</span>
+  </div>
+  <div class="phase">
+    <span class="phase-num">P2</span>
+    <div>
+      <div class="phase-name">Build Environment</div>
+    </div>
+    <span class="badge badge-done">Complete</span>
+  </div>
+  <div class="phase">
+    <span class="phase-num">P3</span>
+    <div>
+      <div class="phase-name">Cloud Infrastructure</div>
+    </div>
+    <span class="badge badge-progress">In Progress</span>
+  </div>
+  <div class="phase">
+    <span class="phase-num">P4</span>
+    <div>
+      <div class="phase-name">Data Migration</div>
+      <div class="phase-note">Requires maintenance window approval</div>
+    </div>
+    <span class="badge badge-pending">Pending</span>
+  </div>
+  <div class="phase">
+    <span class="phase-num">P5</span>
+    <div>
+      <div class="phase-name">Deployment Pipeline</div>
+    </div>
+    <span class="badge badge-pending">Pending</span>
+  </div>
+  <div class="phase">
+    <span class="phase-num">P6</span>
+    <div>
+      <div class="phase-name">Automation Verification</div>
+      <div class="phase-note">10-day testing period</div>
+    </div>
+    <span class="badge badge-pending">Pending</span>
+  </div>
+  <div class="phase">
+    <span class="phase-num">P7</span>
+    <div>
+      <div class="phase-name">Production Hardening</div>
+    </div>
+    <span class="badge badge-pending">Pending</span>
+  </div>
+  <div class="phase">
+    <span class="phase-num">P8</span>
+    <div>
+      <div class="phase-name">Handoff</div>
+    </div>
+    <span class="badge badge-pending">Pending</span>
+  </div>
+</div>
+
+<!-- Key Milestones -->
+<div class="section-title">Key Milestones</div>
+<div class="milestones">
+  <div class="milestone">
+    <div class="ml-dot ml-done"></div>
+    <div><div class="ml-text">All platform-specific dependencies identified and migration begun</div></div>
+  </div>
+  <div class="milestone">
+    <div class="ml-dot ml-done"></div>
+    <div><div class="ml-text">Security audit completed &mdash; hardening fixes applied</div></div>
+  </div>
+  <div class="milestone">
+    <div class="ml-dot ml-done"></div>
+    <div><div class="ml-text">Local development environment containerized with testing infrastructure</div></div>
+  </div>
+  <div class="milestone">
+    <div class="ml-dot ml-pending"></div>
+    <div><div class="ml-text">AWS infrastructure provisioned and configured</div></div>
+  </div>
+  <div class="milestone">
+    <div class="ml-dot ml-pending"></div>
+    <div><div class="ml-text">Database migrated with zero data loss verified</div></div>
+  </div>
+  <div class="milestone">
+    <div class="ml-dot ml-pending"></div>
+    <div><div class="ml-text">Automated deployment pipeline operational</div></div>
+  </div>
+  <div class="milestone">
+    <div class="ml-dot ml-pending"></div>
+    <div><div class="ml-text">All nightly automation jobs verified over 10-day testing window</div></div>
+  </div>
+  <div class="milestone">
+    <div class="ml-dot ml-pending"></div>
+    <div><div class="ml-text">Production cutover &mdash; site live on AWS</div></div>
+  </div>
+</div>
+
+<!-- Estimated Monthly Cost -->
+<div class="section-title">Estimated Monthly AWS Cost</div>
+<table class="cost-table">
+  <tr><th>Category</th><th class="cost-val">Monthly</th></tr>
+  <tr><td>Networking</td><td class="cost-val">~$40</td></tr>
+  <tr><td>Database</td><td class="cost-val">~$50</td></tr>
+  <tr><td>Compute</td><td class="cost-val">~$39</td></tr>
+  <tr><td>Content Delivery</td><td class="cost-val">~$37</td></tr>
+  <tr><td>Storage &amp; Operations</td><td class="cost-val">~$9</td></tr>
+  <tr><td>Total</td><td class="cost-val">~$174/mo</td></tr>
+</table>
+
+<!-- Action Items for Nick -->
+<div class="section-title">Items Needing Your Attention</div>
+<div class="actions" id="action-list">
+  <div class="action-item-wrap">
+    <label class="action-item">
+      <input type="checkbox" data-id="maintenance" onchange="saveState()">
+      <span class="action-text">Approve maintenance window for database migration</span>
+    </label>
+    <details class="action-details">
+      <summary>What this means</summary>
+      <p>When we move the database from Replit to AWS, the site needs to be temporarily offline so no new data is written during the transfer. This ensures zero data loss. We're estimating 90 minutes to be safe, though it may finish sooner. The site will show a "maintenance in progress" page during this time. We need you to approve a date and time window that works &mdash; ideally during low-traffic hours. We'll coordinate the exact timing with you in advance.</p>
+    </details>
+    <textarea class="action-reply" placeholder="Preferred date/time, or any concerns..." oninput="saveState()"></textarea>
+  </div>
+</div>
+
+<button class="send-btn" onclick="sendResponse()">Copy Response to Clipboard</button>
+<div class="send-confirm" id="confirm"></div>
+<p style="text-align: center; font-size: 1rem; color: #1b2a4a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin-bottom: 1.5rem; font-weight: 700;">Send your response to <a href="mailto:gdymmel11@gmail.com" style="color: #2d4a7a; text-decoration: underline;">gdymmel11@gmail.com</a></p>
+
+<div class="footer">RoseBase AWS Migration &bull; Gabe Dymmel</div>
+
+<script>
+function saveState() {
+  const items = document.querySelectorAll('.action-item');
+  const state = {};
+  items.forEach(item => {
+    const cb = item.querySelector('input[type=checkbox]');
+    const ta = item.querySelector('textarea');
+    state[cb.dataset.id] = { checked: cb.checked, reply: ta.value };
+  });
+  localStorage.setItem('rosebase-actions', JSON.stringify(state));
+}
+
+function loadState() {
+  try {
+    const state = JSON.parse(localStorage.getItem('rosebase-actions') || '{}');
+    Object.entries(state).forEach(([id, val]) => {
+      const cb = document.querySelector(`input[data-id="${id}"]`);
+      if (cb) {
+        cb.checked = val.checked;
+        const ta = cb.closest('.action-item').querySelector('textarea');
+        if (ta) ta.value = val.reply || '';
+      }
+    });
+  } catch {}
+}
+
+function sendResponse() {
+  const items = document.querySelectorAll('.action-item');
+  let msg = 'RoseBase Migration — Action Item Responses\n\n';
+  items.forEach(item => {
+    const cb = item.querySelector('input[type=checkbox]');
+    const text = item.querySelector('.action-text').textContent.trim();
+    const reply = item.querySelector('textarea').value.trim();
+    const status = cb.checked ? 'DONE' : 'PENDING';
+    msg += `[${status}] ${text}\n`;
+    if (reply) msg += `  Response: ${reply}\n`;
+    msg += '\n';
+  });
+  navigator.clipboard.writeText(msg).then(() => {
+    const el = document.getElementById('confirm');
+    el.textContent = 'Copied! Paste into email or text to Gabe.';
+    setTimeout(() => el.textContent = '', 3000);
+  });
+}
+
+loadState();
+</script>
+
+</body>
+</html>
