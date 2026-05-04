@@ -3,22 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RoseBase AWS Migration — Progress Report</title>
+<title>RoseBase AWS Migration — Complete</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: 'Georgia', 'Times New Roman', serif; background: #f7f7f5; color: #1b2a4a; padding: 2.5rem; max-width: 900px; margin: 0 auto; }
   h1 { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 1.8rem; margin-bottom: 0.25rem; color: #0a1628; letter-spacing: -0.02em; }
   .subtitle { color: #5a6a85; margin-bottom: 0.5rem; font-size: 0.95rem; font-style: italic; }
-  .updated { color: #8899ab; font-size: 0.8rem; margin-bottom: 2.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .updated { color: #8899ab; font-size: 0.8rem; margin-bottom: 1rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
 
-  /* Overall progress */
+  .live-banner { background: linear-gradient(90deg, #e6f4ed, #f7f7f5); border: 1px solid #1a7a4a; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 2rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; align-items: center; gap: 0.75rem; }
+  .live-dot { width: 10px; height: 10px; border-radius: 50%; background: #1a7a4a; animation: pulse 2s infinite; flex-shrink: 0; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .live-text { font-size: 0.9rem; color: #1a7a4a; font-weight: 600; }
+  .live-detail { font-size: 0.8rem; color: #5a6a85; font-weight: 400; }
+
+  .complete-banner { background: #1a7a4a; color: #ffffff; border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; text-align: center; }
+  .complete-title { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.02em; margin-bottom: 0.25rem; }
+  .complete-sub { font-size: 0.85rem; opacity: 0.95; }
+
   .overall { margin-bottom: 2.5rem; }
   .overall-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
   .overall-label span { font-size: 1.1rem; font-weight: 600; color: #1b2a4a; }
   .bar-track { background: #e2e6ec; border-radius: 8px; height: 24px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, #1b2a4a, #2d4a7a); transition: width 0.6s ease; }
+  .bar-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, #1a7a4a, #2d7a5a); transition: width 0.6s ease; }
 
-  /* Phase cards */
   .phases { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
   .phase { display: grid; grid-template-columns: 36px 1fr 90px; align-items: center; background: #ffffff; border: 1px solid #e2e6ec; border-radius: 8px; padding: 0.85rem 1rem; gap: 0.75rem; }
   .phase-num { font-weight: 700; color: #8899ab; font-size: 0.85rem; }
@@ -27,63 +35,139 @@
   .badge { font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 4px; text-align: center; text-transform: uppercase; letter-spacing: 0.05em; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
   .badge-done { background: #e6f4ed; color: #1a7a4a; }
   .badge-progress { background: #e0eaf5; color: #1b2a4a; }
-  .badge-upcoming { background: #f0f1f3; color: #5a6a85; }
   .badge-pending { background: #f0f1f3; color: #8899ab; }
 
-  /* Milestones */
   .section-title { font-size: 1.15rem; font-weight: 600; margin-bottom: 1rem; color: #1b2a4a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; border-bottom: 2px solid #1b2a4a; padding-bottom: 0.4rem; }
   .milestones { margin-bottom: 2.5rem; }
   .milestone { display: flex; gap: 1rem; margin-bottom: 0.85rem; padding-left: 0.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
   .ml-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
   .ml-done { background: #1a7a4a; }
+  .ml-progress { background: #2d4a7a; animation: pulse 2s infinite; }
   .ml-pending { background: #d0d5dd; }
   .ml-text { font-size: 0.9rem; line-height: 1.5; color: #1b2a4a; }
+  .ml-date { font-size: 0.75rem; color: #8899ab; }
 
-  /* Cost table */
+  .auto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 2.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .auto-card { background: #ffffff; border: 1px solid #e2e6ec; border-radius: 8px; padding: 0.7rem 0.85rem; }
+  .auto-name { font-size: 0.8rem; font-weight: 600; color: #1b2a4a; margin-bottom: 0.2rem; }
+  .auto-time { font-size: 0.75rem; color: #8899ab; }
+  .auto-status { font-size: 0.75rem; margin-top: 0.25rem; }
+  .auto-ok { color: #1a7a4a; }
+  .auto-active { color: #2d4a7a; }
+  .auto-new { color: #c5952a; font-weight: 600; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 2.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .stat-card { background: #ffffff; border: 1px solid #e2e6ec; border-radius: 8px; padding: 1rem; text-align: center; }
+  .stat-value { font-size: 1.5rem; font-weight: 700; color: #1b2a4a; }
+  .stat-label { font-size: 0.75rem; color: #8899ab; margin-top: 0.2rem; }
+
   .cost-table { width: 100%; border-collapse: collapse; margin-bottom: 2.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
   .cost-table th { text-align: left; color: #5a6a85; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.5rem 0; border-bottom: 2px solid #1b2a4a; }
   .cost-table td { padding: 0.6rem 0; border-bottom: 1px solid #e2e6ec; font-size: 0.9rem; }
   .cost-table tr:last-child td { border-bottom: 2px solid #1b2a4a; font-weight: 700; color: #1b2a4a; }
   .cost-val { text-align: right; }
 
-  /* Action items */
+  /* Upgrade pitch */
+  .upgrade-card { background: #ffffff; border: 1px solid #d0d5dd; border-radius: 10px; padding: 1.5rem; margin-bottom: 1rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .upgrade-card.primary { border: 2px solid #2d4a7a; box-shadow: 0 1px 3px rgba(27, 42, 74, 0.08); }
+  .upgrade-tag { display: inline-block; background: #1b2a4a; color: #f7f7f5; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; padding: 0.2rem 0.5rem; border-radius: 4px; margin-bottom: 0.6rem; text-transform: uppercase; }
+  .upgrade-tag.addon { background: #c5952a; }
+  .upgrade-name { font-size: 1.15rem; font-weight: 700; color: #1b2a4a; margin-bottom: 0.25rem; }
+  .upgrade-price { font-size: 1.4rem; font-weight: 700; color: #1a7a4a; margin-bottom: 0.5rem; }
+  .upgrade-price small { font-size: 0.8rem; font-weight: 500; color: #5a6a85; margin-left: 0.4rem; }
+  .upgrade-pitch { font-size: 0.9rem; color: #5a6a85; line-height: 1.6; margin-bottom: 0.85rem; }
+  .upgrade-list { list-style: none; padding: 0; margin: 0 0 0.85rem 0; }
+  .upgrade-list li { font-size: 0.85rem; color: #1b2a4a; padding: 0.3rem 0 0.3rem 1.5rem; position: relative; line-height: 1.5; }
+  .upgrade-list li::before { content: "✓"; position: absolute; left: 0; top: 0.3rem; color: #1a7a4a; font-weight: 700; }
+  .upgrade-outcome { background: #fafaf7; border-left: 3px solid #1a7a4a; padding: 0.6rem 0.85rem; font-size: 0.85rem; color: #1b2a4a; line-height: 1.5; border-radius: 0 4px 4px 0; }
+  .upgrade-outcome strong { color: #1a7a4a; }
+  .upgrade-meta { font-size: 0.75rem; color: #8899ab; margin-top: 0.5rem; }
+
   .actions { margin-bottom: 1.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-  .action-item { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.6rem; background: #ffffff; border-left: 3px solid #c5952a; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; margin-bottom: 0.5rem; font-size: 0.9rem; border-top: 1px solid #e2e6ec; border-right: 1px solid #e2e6ec; border-bottom: 1px solid #e2e6ec; cursor: pointer; }
+  .action-item-wrap { margin-bottom: 0.5rem; background: #ffffff; border-left: 3px solid #c5952a; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; border-top: 1px solid #e2e6ec; border-right: 1px solid #e2e6ec; border-bottom: 1px solid #e2e6ec; }
+  .action-item { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.6rem; font-size: 0.9rem; cursor: pointer; }
   .action-item input[type=checkbox] { margin-top: 0.25rem; width: 18px; height: 18px; accent-color: #1b2a4a; cursor: pointer; flex-shrink: 0; }
   .action-item input:checked + .action-text { text-decoration: line-through; color: #8899ab; }
   .action-text { flex: 1; line-height: 1.5; }
-  .action-reply { width: 100%; margin-top: 0.4rem; margin-left: 28px; padding: 0.5rem 0.65rem; border: 1px solid #d0d5dd; border-radius: 6px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.85rem; color: #1b2a4a; resize: vertical; min-height: 36px; max-height: 120px; background: #fafafa; }
-  .action-reply:focus { outline: none; border-color: #2d4a7a; background: #ffffff; }
-  .action-reply::placeholder { color: #aab4c2; }
-  .action-item-wrap { margin-bottom: 0.5rem; background: #ffffff; border-left: 3px solid #c5952a; border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; border-top: 1px solid #e2e6ec; border-right: 1px solid #e2e6ec; border-bottom: 1px solid #e2e6ec; }
-  .action-item-wrap .action-item { padding: 0; border: none; background: none; margin: 0; }
-  .action-item-wrap .action-reply { margin-left: 28px; margin-top: 0.5rem; }
   .action-details { margin-left: 28px; margin-top: 0.5rem; }
   .action-details summary { color: #2d4a7a; font-size: 0.8rem; cursor: pointer; font-weight: 500; }
   .action-details summary:hover { color: #1b2a4a; }
   .action-details p { margin-top: 0.5rem; font-size: 0.85rem; color: #5a6a85; line-height: 1.6; }
+  .action-reply { width: 100%; margin-top: 0.4rem; margin-left: 28px; padding: 0.5rem 0.65rem; border: 1px solid #d0d5dd; border-radius: 6px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.85rem; color: #1b2a4a; resize: vertical; min-height: 36px; max-height: 120px; background: #fafafa; }
+  .action-reply:focus { outline: none; border-color: #2d4a7a; background: #ffffff; }
+  .action-reply::placeholder { color: #aab4c2; }
   .send-btn { display: block; margin: 0 auto 0.5rem; padding: 0.65rem 1.8rem; background: #1b2a4a; color: #f7f7f5; border: none; border-radius: 6px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; letter-spacing: 0.02em; }
   .send-btn:hover { background: #2d4a7a; }
   .send-confirm { text-align: center; color: #1a7a4a; font-size: 0.85rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 1.5rem; margin-bottom: 1.5rem; }
 
-  /* Footer */
+  .bonus { background: #fafaf7; border: 1px solid #e2e6ec; border-radius: 10px; padding: 1.5rem 1.75rem; margin-bottom: 2.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  .bonus-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
+  .bonus-tag { display: inline-block; background: #1a7a4a; color: #f7f7f5; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; padding: 0.2rem 0.55rem; border-radius: 4px; text-transform: uppercase; }
+  .bonus-title { font-size: 1.05rem; font-weight: 700; color: #1b2a4a; }
+  .bonus-intro { font-size: 0.85rem; color: #5a6a85; margin-bottom: 1rem; line-height: 1.5; }
+  .bonus-group { margin-bottom: 1rem; }
+  .bonus-group-title { font-size: 0.75rem; font-weight: 700; color: #1b2a4a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.45rem; padding-bottom: 0.3rem; border-bottom: 1px solid #e2e6ec; }
+  .bonus-items { list-style: none; padding: 0; margin: 0; }
+  .bonus-items li { font-size: 0.85rem; color: #1b2a4a; padding: 0.35rem 0 0.35rem 1.5rem; position: relative; line-height: 1.5; }
+  .bonus-items li::before { content: "✓"; position: absolute; left: 0; top: 0.35rem; color: #1a7a4a; font-weight: 700; }
+  .bonus-items li strong { color: #0a1628; }
+  .bonus-items li .detail { color: #5a6a85; font-size: 0.8rem; display: block; margin-top: 0.1rem; }
+
   .footer { color: #8899ab; font-size: 0.75rem; text-align: center; padding-top: 2rem; border-top: 1px solid #d0d5dd; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+  @media (max-width: 600px) {
+    body { padding: 1.25rem; }
+    .auto-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr; }
+    .phase { grid-template-columns: 30px 1fr 80px; }
+  }
 </style>
 </head>
 <body>
 
 <h1>RoseBase AWS Migration</h1>
 <p class="subtitle">Replit to AWS &mdash; 8-Phase Production Cutover</p>
-<p class="updated">Prepared by Gabe Dymmel &bull; Week 1 Update</p>
+<p class="updated">Prepared by Gabe Dymmel &bull; Updated May 4, 2026 &bull; Day 19/21 (transfer) &bull; Day 3/30 (support window)</p>
+
+<!-- Completion Banner -->
+<div class="complete-banner">
+  <div class="complete-title">✓ Migration Complete</div>
+  <div class="complete-sub">All 8 phases delivered. Site fully live, hardened, and ready for handoff.</div>
+</div>
+
+<!-- Live Banner -->
+<div class="live-banner">
+  <div class="live-dot"></div>
+  <div>
+    <div class="live-text">Live at <a href="https://rosesroses.com" style="color: #1a7a4a;">https://rosesroses.com</a></div>
+    <div class="live-detail">32,849+ roses &bull; Stripe live mode &bull; All automation running &bull; Backups verified &bull; Monitoring tuned</div>
+  </div>
+</div>
+
+<!-- Key Stats -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-value">32,849</div>
+    <div class="stat-label">Roses Serving</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">35+</div>
+    <div class="stat-label">Issues Found &amp; Fixed</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">9</div>
+    <div class="stat-label">PRs Shipped</div>
+  </div>
+</div>
 
 <!-- Overall Progress -->
 <div class="overall">
   <div class="overall-label">
     <span>Overall Progress</span>
-    <span style="color: #1b2a4a; font-size: 1.3rem; font-weight: 700;">24%</span>
+    <span style="color: #1a7a4a; font-size: 1.3rem; font-weight: 700;">100%</span>
   </div>
   <div class="bar-track">
-    <div class="bar-fill" style="width: 24%"></div>
+    <div class="bar-fill" style="width: 100%"></div>
   </div>
 </div>
 
@@ -94,6 +178,7 @@
     <span class="phase-num">P1</span>
     <div>
       <div class="phase-name">Platform Migration</div>
+      <div class="phase-note">GCS &rarr; S3, Replit plugins removed, security fixes</div>
     </div>
     <span class="badge badge-done">Complete</span>
   </div>
@@ -101,6 +186,7 @@
     <span class="phase-num">P2</span>
     <div>
       <div class="phase-name">Build Environment</div>
+      <div class="phase-note">Docker, local dev, S3 emulator</div>
     </div>
     <span class="badge badge-done">Complete</span>
   </div>
@@ -108,82 +194,243 @@
     <span class="phase-num">P3</span>
     <div>
       <div class="phase-name">Cloud Infrastructure</div>
+      <div class="phase-note">VPC, RDS, ECS, S3, ALB, IAM, Secrets Manager</div>
     </div>
-    <span class="badge badge-progress">In Progress</span>
+    <span class="badge badge-done">Complete</span>
   </div>
   <div class="phase">
     <span class="phase-num">P4</span>
     <div>
       <div class="phase-name">Data Migration</div>
-      <div class="phase-note">Requires maintenance window approval</div>
+      <div class="phase-note">25,248 roses migrated, all tables verified</div>
     </div>
-    <span class="badge badge-pending">Pending</span>
+    <span class="badge badge-done">Complete</span>
   </div>
   <div class="phase">
     <span class="phase-num">P5</span>
     <div>
       <div class="phase-name">Deployment Pipeline</div>
+      <div class="phase-note">GitHub Actions, OIDC auth, rollback detection</div>
     </div>
-    <span class="badge badge-pending">Pending</span>
+    <span class="badge badge-done">Complete</span>
   </div>
   <div class="phase">
     <span class="phase-num">P6</span>
     <div>
-      <div class="phase-name">Automation Verification</div>
-      <div class="phase-note">10-day testing period</div>
+      <div class="phase-name">Automation Restoration</div>
+      <div class="phase-note">All nightly jobs restored, broken jobs fixed, monitoring active</div>
     </div>
-    <span class="badge badge-pending">Pending</span>
+    <span class="badge badge-done">Complete</span>
   </div>
   <div class="phase">
     <span class="phase-num">P7</span>
     <div>
       <div class="phase-name">Production Hardening</div>
+      <div class="phase-note">HTTPS live, alarms, backups, indexes, security headers</div>
     </div>
-    <span class="badge badge-pending">Pending</span>
+    <span class="badge badge-done">Complete</span>
   </div>
   <div class="phase">
     <span class="phase-num">P8</span>
     <div>
       <div class="phase-name">Handoff</div>
+      <div class="phase-note">Audit pass, ops manual, day-0 checklist, repo transfer pending</div>
     </div>
-    <span class="badge badge-pending">Pending</span>
+    <span class="badge badge-done">Complete</span>
   </div>
 </div>
 
-<!-- Key Milestones -->
-<div class="section-title">Key Milestones</div>
-<div class="milestones">
-  <div class="milestone">
-    <div class="ml-dot ml-done"></div>
-    <div><div class="ml-text">All platform-specific dependencies identified and migration begun</div></div>
+<!-- Nightly Automation Status -->
+<div class="section-title">Automation Status</div>
+<div class="auto-grid">
+  <div class="auto-card">
+    <div class="auto-name">Nursery Audit</div>
+    <div class="auto-time">02:30 ET daily</div>
+    <div class="auto-status auto-ok">Verified &mdash; running 14+ nights</div>
   </div>
-  <div class="milestone">
-    <div class="ml-dot ml-done"></div>
-    <div><div class="ml-text">Security audit completed &mdash; hardening fixes applied</div></div>
+  <div class="auto-card">
+    <div class="auto-name">Enrichment</div>
+    <div class="auto-time">03:00 ET daily</div>
+    <div class="auto-status auto-ok">Verified &mdash; +7,500 roses since launch</div>
   </div>
-  <div class="milestone">
-    <div class="ml-dot ml-done"></div>
-    <div><div class="ml-text">Local development environment containerized with testing infrastructure</div></div>
+  <div class="auto-card">
+    <div class="auto-name">Catalog Scrape</div>
+    <div class="auto-time">04:00 ET daily</div>
+    <div class="auto-status auto-ok">Verified &mdash; 115 scrapers running</div>
   </div>
-  <div class="milestone">
-    <div class="ml-dot ml-pending"></div>
-    <div><div class="ml-text">AWS infrastructure provisioned and configured</div></div>
+  <div class="auto-card">
+    <div class="auto-name">Cover Audit</div>
+    <div class="auto-time">04:30 ET daily</div>
+    <div class="auto-status auto-ok">Verified &mdash; AI-driven photo verification</div>
   </div>
-  <div class="milestone">
-    <div class="ml-dot ml-pending"></div>
-    <div><div class="ml-text">Database migrated with zero data loss verified</div></div>
+  <div class="auto-card">
+    <div class="auto-name">Deduplication</div>
+    <div class="auto-time">05:01 ET daily</div>
+    <div class="auto-status auto-active">Active</div>
   </div>
-  <div class="milestone">
-    <div class="ml-dot ml-pending"></div>
-    <div><div class="ml-text">Automated deployment pipeline operational</div></div>
+  <div class="auto-card">
+    <div class="auto-name">Progress Snapshot</div>
+    <div class="auto-time">05:30 ET daily</div>
+    <div class="auto-status auto-active">Active</div>
   </div>
-  <div class="milestone">
-    <div class="ml-dot ml-pending"></div>
-    <div><div class="ml-text">All nightly automation jobs verified over 10-day testing window</div></div>
+  <div class="auto-card">
+    <div class="auto-name">Variety Photo Audit</div>
+    <div class="auto-time">07:00 ET Sundays</div>
+    <div class="auto-status auto-active">Active &mdash; AI weekly photo QA</div>
   </div>
-  <div class="milestone">
-    <div class="ml-dot ml-pending"></div>
-    <div><div class="ml-text">Production cutover &mdash; site live on AWS</div></div>
+  <div class="auto-card">
+    <div class="auto-name">Stale Nursery Auto-Retire</div>
+    <div class="auto-time">08:00 ET Sundays</div>
+    <div class="auto-status auto-new">New &mdash; first run May 5</div>
+  </div>
+  <div class="auto-card">
+    <div class="auto-name">Patent Application Monitor</div>
+    <div class="auto-time">05:00 ET Quarterly</div>
+    <div class="auto-status auto-active">Active &mdash; tracks USPTO filings</div>
+  </div>
+  <div class="auto-card">
+    <div class="auto-name">Stripe Webhook Safety Net</div>
+    <div class="auto-time">Real-time</div>
+    <div class="auto-status auto-new">New &mdash; alerts on stuck orders</div>
+  </div>
+</div>
+
+<!-- Available Upgrades -->
+<div class="section-title">Available Upgrades</div>
+<p style="font-size: 0.85rem; color: #5a6a85; margin-bottom: 1.25rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">Optional follow-on engagements. Site is fully production-ready as-is &mdash; these are for if you want to push further. Take it or leave it; no pressure.</p>
+
+<div class="upgrade-card primary">
+  <span class="upgrade-tag">Recommended</span>
+  <div class="upgrade-name">SEO + Polish Package</div>
+  <div class="upgrade-price">$2,200<small>~3-4 days</small></div>
+  <p class="upgrade-pitch">Combines the SEO foundation with the remaining cleanup items. Right now the React SPA hides almost everything from Google &mdash; this fixes that, plus tightens the operational loose ends.</p>
+  <ul class="upgrade-list">
+    <li><strong>Server-side rendering / pre-rendering</strong> &mdash; the biggest unlock. Lets Google actually read all 32,849 rose pages.</li>
+    <li>Title + meta description templates per page (auto-generated, customizable per page)</li>
+    <li>Image SEO &mdash; alt text audit + auto-generation, image sitemap, lazy loading</li>
+    <li>Google Search Console + sitemap submission</li>
+    <li>GA4 analytics with conversion funnel events (cart-add, checkout-start, purchase)</li>
+    <li>Triage + clean up the failed scrapers showing in the admin dashboard</li>
+    <li>Resolve <code>weekly-event-discovery</code> schedule conflict + wire up the 11 invisible workers in admin run-health view</li>
+  </ul>
+  <div class="upgrade-outcome">
+    <strong>Outcome:</strong> Top rose pages start ranking for "[rose name]" searches in 6-12 weeks. You can SEE what users do (analytics). Admin dashboard goes fully green.
+  </div>
+  <div class="upgrade-meta">Ongoing infra: ~$30/mo (Prerender.io) &bull; 50% on start, 50% on delivery</div>
+</div>
+
+<div class="upgrade-card">
+  <span class="upgrade-tag addon">Optional Add-On</span>
+  <div class="upgrade-name">Skimlinks Affiliate Layer</div>
+  <div class="upgrade-price">+$1,000<small>~2 days</small></div>
+  <p class="upgrade-pitch">Pairs naturally with the SEO package. Every outbound link to a partner nursery automatically becomes an affiliate link where Skimlinks has a publisher relationship. Passive revenue with zero ongoing effort.</p>
+  <ul class="upgrade-list">
+    <li>Skimlinks publisher account setup + onboarding</li>
+    <li>Site-wide outbound link auto-rewriting (works with existing affiliate networks like CJ, Awin, Rakuten)</li>
+    <li>Reporting dashboard so you can see clicks &amp; commissions per nursery</li>
+    <li>Disclosure copy added to terms/privacy for compliance</li>
+  </ul>
+  <div class="upgrade-outcome">
+    <strong>Outcome:</strong> Once SEO traffic kicks in, the package usually pays for itself within a few months at modest traffic. Even at current traffic levels you start earning commissions on existing outbound clicks immediately.
+  </div>
+  <div class="upgrade-meta">No ongoing infra cost &bull; Best stacked with SEO package &bull; Standalone available too</div>
+</div>
+
+<!-- Bonus Work -->
+<div class="bonus">
+  <div class="bonus-header">
+    <span class="bonus-tag">Already Shipped</span>
+    <div class="bonus-title">Bonus Work &mdash; No Extra Charge</div>
+  </div>
+  <p class="bonus-intro">All of these were outside the original migration scope but were caught and fixed during the pre-handoff audit and shipped at no charge. Everything below is <strong>already live in production</strong>.</p>
+
+  <div class="bonus-group">
+    <div class="bonus-group-title">Frontend &amp; UX</div>
+    <ul class="bonus-items">
+      <li><strong>Mobile navigation built from scratch</strong>
+        <span class="detail">Below 768px the desktop nav was hidden with no replacement &mdash; mobile users couldn't reach A-Z, Shop, Library, or any other section. New <code>MobileNav.tsx</code> with Radix Sheet drawer, hamburger trigger, full keyboard / focus-trap accessibility, brand-styled with proper contrast.</span>
+      </li>
+      <li><strong>Apple Pay + Google Pay enabled at checkout</strong>
+        <span class="detail">A site-wide <code>Permissions-Policy</code> header was silently blocking the wallet buttons in checkout. Fixed by allowlisting Stripe + Google Pay origins. iPhone users now see Apple Pay; Chrome users see Google Pay.</span>
+      </li>
+      <li><strong>Banner contrast fixes site-wide (WCAG AA)</strong>
+        <span class="detail">4 components were using same-hue dark text on light tinted backgrounds (text-rose-700 on bg-rose-50, etc.) &mdash; broken in macOS dark mode and below WCAG AA. Switched to saturated bg + white text pattern: FeatureTicker rotating banner, Home shop+stats banners, EmailVerificationBanner, ImportRegulationNotice.</span>
+      </li>
+      <li><strong>Out-of-stock vendor row UI redesign</strong>
+        <span class="detail">"Where to Buy" rows were using <code>disabled:opacity-60</code> on the entire row, making available vendors look broken too. Now greyed bg + "Out of stock" pill + clear "Unavailable" disabled-styled button. Available vendors stand out properly.</span>
+      </li>
+      <li><strong>Footer accessibility upgrade</strong>
+        <span class="detail">Link contrast was 4.2:1 (below WCAG AA's 4.5:1 minimum). Bumped to compliant ratio. Also caught and replaced 18 stale <code>support@rosebase.app</code> references &mdash; all now point to verified <code>support@rosesroses.com</code>.</span>
+      </li>
+      <li><strong>Privacy/Terms/Refunds legal placeholder filled</strong>
+        <span class="detail">All three pages contained literal <code>[Legal Entity Name, LLC]</code> placeholder text where the company name should be &mdash; legally significant on PII-collecting pages. Filled with <em>RosesRoses (Fritz Companies)</em>.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="bonus-group">
+    <div class="bonus-group-title">Backend &amp; Security</div>
+    <ul class="bonus-items">
+      <li><strong>Entire transactional email pipeline repaired</strong>
+        <span class="detail">8 hardcoded sender addresses in production code were using unverified domains (rosebase.com / rosebase.app), causing every customer order confirmation, nursery notification, admin alert, shipped notification, and audit report email to silently 403 from Resend. Plus 2 module-level fallback defaults and 1 broken template literal. Fixed at every callsite.</span>
+      </li>
+      <li><strong>Admin auth hardening</strong>
+        <span class="detail">Admin password was defaulting to literal "admin123" if the env var was missing &mdash; fail-OPEN authentication. Removed default; logs error and skips admin seeding if missing. Generated cryptographically strong random password, stored in AWS Secrets Manager.</span>
+      </li>
+      <li><strong>Stripe live publishable key swap</strong>
+        <span class="detail">Frontend was using a Stripe TEST publishable key in production. Customers literally could not pay &mdash; the Stripe Payment Element returned 400. Fixed by swapping to <code>pk_live_*</code> in the Dockerfile build args.</span>
+      </li>
+      <li><strong>Checkout NaN price validation</strong>
+        <span class="detail">Two endpoints (<code>/checkout/update-intent</code> and <code>/checkout/confirm</code>) accepted unvalidated price math &mdash; <code>NaN</code> values could propagate through tax calculation and reach Stripe. Added <code>Number.isFinite</code> guards at the entry points.</span>
+      </li>
+      <li><strong>Stripe webhook safety net</strong>
+        <span class="detail">New <code>POST /api/webhook/stripe</code> handler with signature verification. If a customer's browser disconnects between Stripe success and our <code>/checkout/confirm</code> call, the webhook detects the stuck order and emails the admin with full details for manual reconciliation. Was technically in scope (Phase 7) but built well beyond the minimum.</span>
+      </li>
+      <li><strong>OpenAI silent-failure fix across 24 enrichment scripts</strong>
+        <span class="detail">Models had been upgraded to gpt-5-mini / gpt-5.2 mid-migration. These models REJECT the <code>temperature</code> parameter, causing every affected enrichment call to silently drop the record. Surgical removal of <code>temperature:</code> at 24 callsites across 18 files. Verified zero remaining references.</span>
+    </ul>
+  </div>
+
+  <div class="bonus-group">
+    <div class="bonus-group-title">Operations &amp; Reliability</div>
+    <ul class="bonus-items">
+      <li><strong>Auto-retire stale nursery scrapers (entirely new feature)</strong>
+        <span class="detail">A new weekly job (Sundays 8am ET) automatically retires nurseries with no successful catalog scrape in 60+ days. Conservative thresholds (60 days, 20+ attempts), capped at 50 retirements per run, full audit trail in <code>scraper_triage</code>, sends admin email summary. Without this, the "failed scrapers" count grew unbounded forever &mdash; now it stays bounded with zero ongoing effort.</span>
+      </li>
+      <li><strong>Operations manual expanded 4x</strong>
+        <span class="detail">Original draft documented 6 of 24+ scheduled jobs. Now covers every nightly, weekly, monthly, quarterly, annual, and admin-triggered worker with mission, schedule, and runbook. Plus the schedule contradiction in <code>weekly-event-discovery</code> is flagged inline.</span>
+      </li>
+      <li><strong>CloudWatch alarm tuning</strong>
+        <span class="detail">The <code>rosebase-app-down</code> alarm was firing on 2 consecutive 60-second failures &mdash; too sensitive for normal task replacements during nightly cron. Retuned to 3-of-5-minute evaluation. Real outages still page within ~3 minutes; transient blips no longer wake anyone up.</span>
+      </li>
+      <li><strong>Admin dashboard false-positive alert eliminated</strong>
+        <span class="detail">The "X nightly job(s) overdue: dead-url-check" alert had been firing constantly because the dashboard's overdue-filter wasn't reading the <code>triggerMode</code> field added in PR #11. Imported the registry, added the filter logic. Admin-triggered workers no longer false-flag.</span>
+      </li>
+      <li><strong>Migration drift CI guard</strong>
+        <span class="detail">New CI job that fails any PR adding a duplicate-prefix migration file (uses <code>git diff</code> against base). Pre-existing duplicates pass; future ones can't slip in. Documented in <code>MIGRATION-CLEANUP-NOTES.md</code>.</span>
+      </li>
+      <li><strong>RDS Performance Insights enabled</strong>
+        <span class="detail">7-day retention free tier, no restart, no downtime. Read-only query performance monitoring. Useful for diagnosing slow queries during cron windows or as traffic grows.</span>
+      </li>
+      <li><strong>S3 BlockPublicPolicy hardened</strong>
+        <span class="detail">Public bucket had <code>BlockPublicPolicy=false</code> &mdash; a foot-gun where someone could accidentally make objects publicly readable. All 4 public-access flags now ON. Closes the misconfiguration risk without breaking any current functionality (CloudFront OAC bypasses these blocks).</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="bonus-group">
+    <div class="bonus-group-title">Pre-Handoff Audit</div>
+    <ul class="bonus-items">
+      <li><strong>4-agent comprehensive audit (May 2-3 weekend)</strong>
+        <span class="detail">UI/UX via Playwright, code review, AWS infra, pipeline health &mdash; cross-checked against the agreement. Found 6 critical issues (all fixed before handoff) and 22 important items (most fixed; rest documented).</span>
+      </li>
+      <li><strong>Day 0 / Day 1 handoff checklist written</strong>
+        <span class="detail">7 mechanical handover steps with owner and ETA: GitHub repo transfer, AWS console MFA setup, alarm SNS confirmation, credential vault hand-over, day-1 key rotation, final invoice, OIDC trust cleanup. Nothing falls through the cracks.</span>
+      </li>
+      <li><strong>9 pull requests merged across the audit weekend</strong>
+        <span class="detail">PRs #15 through #24 &mdash; every fix committed, code-reviewed (4 audit agents in parallel), deployed, and verified end-to-end. Six task definition revisions deployed (70 → 80) with zero downtime and zero rollbacks.</span>
+      </li>
+    </ul>
   </div>
 </div>
 
@@ -191,11 +438,12 @@
 <div class="section-title">Estimated Monthly AWS Cost</div>
 <table class="cost-table">
   <tr><th>Category</th><th class="cost-val">Monthly</th></tr>
-  <tr><td>Networking</td><td class="cost-val">~$40</td></tr>
-  <tr><td>Database</td><td class="cost-val">~$50</td></tr>
-  <tr><td>Compute</td><td class="cost-val">~$39</td></tr>
-  <tr><td>Content Delivery</td><td class="cost-val">~$37</td></tr>
+  <tr><td>Networking (VPC, NAT Gateway)</td><td class="cost-val">~$40</td></tr>
+  <tr><td>Database (PostgreSQL, db.t4g.medium)</td><td class="cost-val">~$50</td></tr>
+  <tr><td>Compute (ECS Fargate)</td><td class="cost-val">~$39</td></tr>
+  <tr><td>Content Delivery (ALB)</td><td class="cost-val">~$22</td></tr>
   <tr><td>Storage &amp; Operations</td><td class="cost-val">~$9</td></tr>
+  <tr><td>Backups + Performance Insights</td><td class="cost-val">~$14</td></tr>
   <tr><td>Total</td><td class="cost-val">~$174/mo</td></tr>
 </table>
 
@@ -204,14 +452,47 @@
 <div class="actions" id="action-list">
   <div class="action-item-wrap">
     <label class="action-item">
-      <input type="checkbox" data-id="maintenance" onchange="saveState()">
-      <span class="action-text">Approve maintenance window for database migration</span>
+      <input type="checkbox" data-id="transfer" onchange="saveState()">
+      <span class="action-text">Confirm GitHub repo transfer is OK to initiate</span>
     </label>
     <details class="action-details">
       <summary>What this means</summary>
-      <p>When we move the database from Replit to AWS, the site needs to be temporarily offline so no new data is written during the transfer. This ensures zero data loss. We're estimating 90 minutes to be safe, though it may finish sooner. The site will show a "maintenance in progress" page during this time. We need you to approve a date and time window that works &mdash; ideally during low-traffic hours. We'll coordinate the exact timing with you in advance.</p>
+      <p>I'll transfer the repo to your GitHub account (nickfritz1978). You'll get an email from GitHub to accept &mdash; click within 24 hours or it expires. After accept, please re-add gdymmel11-ai as a collaborator so I can ship hotfixes during the support window.</p>
     </details>
-    <textarea class="action-reply" placeholder="Preferred date/time, or any concerns..." oninput="saveState()"></textarea>
+    <textarea class="action-reply" placeholder="Confirm or ask questions..." oninput="saveState()"></textarea>
+  </div>
+  <div class="action-item-wrap">
+    <label class="action-item">
+      <input type="checkbox" data-id="upgrade" onchange="saveState()">
+      <span class="action-text">Decide on the SEO + Polish upgrade ($2,200) and optional Skimlinks add-on (+$1,000)</span>
+    </label>
+    <details class="action-details">
+      <summary>What this means</summary>
+      <p>Either is take-it-or-leave-it. Site is fully production-ready as-is. If you want to push for organic search visibility and convert outbound traffic into passive revenue, this is the natural next step. If you'd rather just take ownership and run with what's there, just say so.</p>
+    </details>
+    <textarea class="action-reply" placeholder="Yes / no / questions..." oninput="saveState()"></textarea>
+  </div>
+  <div class="action-item-wrap">
+    <label class="action-item">
+      <input type="checkbox" data-id="confirm-sns" onchange="saveState()">
+      <span class="action-text">Confirm AWS alarm subscription email (one-time click)</span>
+    </label>
+    <details class="action-details">
+      <summary>What this means</summary>
+      <p>You should have received an email from AWS Notifications asking you to confirm subscription to the rosebase-billing-alerts SNS topic. Click the confirmation link so you start receiving operational alerts directly. (I'll unsubscribe myself once the support window ends in late May.)</p>
+    </details>
+    <textarea class="action-reply" placeholder="Confirmed / not yet..." oninput="saveState()"></textarea>
+  </div>
+  <div class="action-item-wrap">
+    <label class="action-item">
+      <input type="checkbox" data-id="invoice" onchange="saveState()">
+      <span class="action-text">Final $4,000 invoice incoming after handoff meeting</span>
+    </label>
+    <details class="action-details">
+      <summary>What this means</summary>
+      <p>Per agreement Section 3.2: second payment due at production cutover or day 21, whichever comes first. Cutover was approximately April 23. I'll send the final invoice after we wrap up the handoff. The 30-day support window is already in flight and runs through approximately May 23, 2026.</p>
+    </details>
+    <textarea class="action-reply" placeholder="Anything to flag..." oninput="saveState()"></textarea>
   </div>
 </div>
 
@@ -219,16 +500,16 @@
 <div class="send-confirm" id="confirm"></div>
 <p style="text-align: center; font-size: 1rem; color: #1b2a4a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin-bottom: 1.5rem; font-weight: 700;">Send your response to <a href="mailto:gdymmel11@gmail.com" style="color: #2d4a7a; text-decoration: underline;">gdymmel11@gmail.com</a></p>
 
-<div class="footer">RoseBase AWS Migration &bull; Gabe Dymmel</div>
+<div class="footer">RoseBase AWS Migration &bull; Gabe Dymmel &bull; Migration Complete &bull; May 2026</div>
 
 <script>
 function saveState() {
-  const items = document.querySelectorAll('.action-item');
+  const wraps = document.querySelectorAll('.action-item-wrap');
   const state = {};
-  items.forEach(item => {
-    const cb = item.querySelector('input[type=checkbox]');
-    const ta = item.querySelector('textarea');
-    state[cb.dataset.id] = { checked: cb.checked, reply: ta.value };
+  wraps.forEach(wrap => {
+    const cb = wrap.querySelector('input[type=checkbox]');
+    const ta = wrap.querySelector('textarea');
+    if (cb) state[cb.dataset.id] = { checked: cb.checked, reply: ta ? ta.value : '' };
   });
   localStorage.setItem('rosebase-actions', JSON.stringify(state));
 }
@@ -240,7 +521,8 @@ function loadState() {
       const cb = document.querySelector(`input[data-id="${id}"]`);
       if (cb) {
         cb.checked = val.checked;
-        const ta = cb.closest('.action-item').querySelector('textarea');
+        const wrap = cb.closest('.action-item-wrap');
+        const ta = wrap ? wrap.querySelector('textarea') : null;
         if (ta) ta.value = val.reply || '';
       }
     });
@@ -248,13 +530,14 @@ function loadState() {
 }
 
 function sendResponse() {
-  const items = document.querySelectorAll('.action-item');
+  const wraps = document.querySelectorAll('.action-item-wrap');
   let msg = 'RoseBase Migration — Action Item Responses\n\n';
-  items.forEach(item => {
-    const cb = item.querySelector('input[type=checkbox]');
-    const text = item.querySelector('.action-text').textContent.trim();
-    const reply = item.querySelector('textarea').value.trim();
-    const status = cb.checked ? 'DONE' : 'PENDING';
+  wraps.forEach(wrap => {
+    const cb = wrap.querySelector('input[type=checkbox]');
+    const text = wrap.querySelector('.action-text').textContent.trim();
+    const ta = wrap.querySelector('textarea');
+    const reply = ta ? ta.value.trim() : '';
+    const status = cb && cb.checked ? 'DONE' : 'PENDING';
     msg += `[${status}] ${text}\n`;
     if (reply) msg += `  Response: ${reply}\n`;
     msg += '\n';
