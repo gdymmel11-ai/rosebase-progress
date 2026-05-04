@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoseBase — Ops Cheat Sheet</title>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #f7f7f5;
+    color: #1b2a4a;
+    margin: 0;
+    padding: 2.5rem 1.25rem 4rem;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .nav {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .nav a { color: #2d4a7a; text-decoration: none; }
+  .nav a:hover { text-decoration: underline; }
+
+  h1 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.9rem;
+    color: #0a1628;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.25rem;
+  }
+  .subtitle {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #5a6a85;
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.3rem;
+    color: #1b2a4a;
+    border-bottom: 2px solid #1b2a4a;
+    padding-bottom: 0.4rem;
+    margin: 2.5rem 0 1rem;
+  }
+  h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.05rem;
+    color: #1b2a4a;
+    margin: 1.5rem 0 0.5rem;
+  }
+  h4 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.95rem;
+    color: #1b2a4a;
+    margin: 1rem 0 0.4rem;
+  }
+  p { margin: 0.6rem 0; }
+  ul, ol { margin: 0.6rem 0 0.6rem 1.5rem; padding: 0; }
+  li { margin: 0.25rem 0; }
+  hr {
+    border: 0;
+    border-top: 1px solid #d0d5dd;
+    margin: 2rem 0;
+  }
+
+  code {
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.85em;
+    background: #eef0f3;
+    color: #1b2a4a;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+  }
+  pre {
+    background: #0a1628;
+    color: #e2e6ec;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.85rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid #e2e6ec;
+  }
+  th {
+    background: #f0f1f3;
+    color: #5a6a85;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    border-bottom: 2px solid #1b2a4a;
+  }
+
+  blockquote {
+    border-left: 3px solid #1a7a4a;
+    background: #fafaf7;
+    padding: 0.6rem 0.95rem;
+    margin: 1rem 0;
+    color: #1b2a4a;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+  }
+
+  a { color: #2d4a7a; }
+  a:hover { color: #1a7a4a; }
+
+  strong { color: #0a1628; }
+
+  .footer {
+    color: #8899ab;
+    font-size: 0.75rem;
+    text-align: center;
+    padding-top: 3rem;
+    margin-top: 3rem;
+    border-top: 1px solid #d0d5dd;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 1.5rem 1rem 3rem; }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.15rem; }
+    pre { font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a href="./">← Back to migration progress</a>
+    &nbsp;·&nbsp;
+    <a href="./operations-manual.html">Operations Manual</a>
+    &nbsp;·&nbsp;
+    <a href="./ops-cheat-sheet.html">Cheat Sheet</a>
+  </div>
+  <h1>RoseBase — Ops Cheat Sheet</h1>
+  <p class="subtitle">One-page reference for day-to-day operations</p>
+  <p><strong>Site:</strong> https://rosesroses.com
+<strong>Updated:</strong> May 4, 2026</p>
+<hr>
+<h2>Daily (automatic — no action needed)</h2>
+<p>Your nightly pipeline runs automatically. Times are Eastern.</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Job</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>02:30</td>
+<td>Nursery Audit</td>
+<td>Checks nursery health, auto-fixes configs</td>
+</tr>
+<tr>
+<td>03:00</td>
+<td>Enrichment</td>
+<td>Fills in missing rose data via OpenAI</td>
+</tr>
+<tr>
+<td>03:00</td>
+<td>Fast-Lane Refresh</td>
+<td>Quick re-enrichment of trending roses</td>
+</tr>
+<tr>
+<td>03:00</td>
+<td>Session Cleanup</td>
+<td>Purges expired user sessions</td>
+</tr>
+<tr>
+<td>03:00</td>
+<td>Fragrance Consensus</td>
+<td>Aggregates user fragrance votes</td>
+</tr>
+<tr>
+<td>03:30</td>
+<td>Confidence Accumulation</td>
+<td>Updates field-confidence scores</td>
+</tr>
+<tr>
+<td>04:00</td>
+<td>Catalog Scrape</td>
+<td>Updates prices from 115 nursery websites</td>
+</tr>
+<tr>
+<td>04:00</td>
+<td>Coverage Snapshot</td>
+<td>Captures field-completeness metrics</td>
+</tr>
+<tr>
+<td>04:30</td>
+<td>Cover Audit</td>
+<td>AI checks cover photo quality</td>
+</tr>
+<tr>
+<td>05:01</td>
+<td>Deduplication</td>
+<td>Merges duplicate rose entries</td>
+</tr>
+<tr>
+<td>05:15</td>
+<td>Degraded Escalation</td>
+<td>Escalates persistently-failing scrapers</td>
+</tr>
+<tr>
+<td>05:30</td>
+<td>Progress Snapshot</td>
+<td>Saves daily stats</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Weekly:</strong> Sunday 07:00 — Variety Photo Audit · Sunday 08:00 — Stale Nursery Auto-Retire
+<strong>Quarterly:</strong> Jan/Apr/Jul/Oct 1st @ 05:00 — Patent Application Monitor
+<strong>Annual:</strong> Jan 1 @ 05:00 — Patent Refresh</p>
+<p><strong>You'll get an email if something goes wrong.</strong> No need to check manually.</p>
+<p>For a deeper dive on each job and what to do if it fails, see <code>.planning/OPERATIONS-MANUAL.md</code> section 4.</p>
+<hr>
+<h2>How to check if things are working</h2>
+<p><strong>Quick health check</strong> — paste in any browser:</p>
+<pre><code>https://rosesroses.com/api/healthz
+</code></pre>
+<p>Should show: <code>{"status":"ok"}</code></p>
+<p><strong>Live admin dashboard</strong> (login required):</p>
+<pre><code>https://rosesroses.com/admin
+</code></pre>
+<p>Top tiles show pipeline status, alerts, and overnight stats. Auto-refreshes every 60 seconds.</p>
+<p><strong>Check in AWS Console:</strong>
+1. Sign in to aws.amazon.com (your IAM admin user — NOT root for daily ops)
+2. Make sure region "N. Virginia (us-east-1)" is selected top-right
+3. Search "ECS" → click <code>rosebase</code> cluster → <code>rosebase-api</code> service
+4. Running count should be 1. If it's 0, something crashed.</p>
+<hr>
+<h2>Common tasks</h2>
+<h3>Deploy new code</h3>
+<p>Just push to the <code>main</code> branch on GitHub. It deploys automatically in ~10-15 minutes.</p>
+<p><strong>Don't push between 2 AM and 6:30 AM ET</strong> — nightly jobs are running.</p>
+<h3>Restart the app (force redeploy of the same code)</h3>
+<pre><code class="language-bash">aws ecs update-service --cluster rosebase --service rosebase-api --force-new-deployment --region us-east-1
+</code></pre>
+<p>Takes ~5 minutes. No downtime (new container starts before old one stops).</p>
+<h3>Change a secret (API key, password, etc.)</h3>
+<ol>
+<li>Go to AWS Console → Secrets Manager</li>
+<li>Find the secret (e.g., <code>rosebase/openai-api-key</code>)</li>
+<li>Click "Retrieve secret value" → "Edit"</li>
+<li>Save the new value</li>
+<li>Restart the app (see above) — secrets are loaded at task startup</li>
+</ol>
+<h3>Check logs</h3>
+<ol>
+<li>AWS Console → CloudWatch → Log groups → <code>/ecs/rosebase</code></li>
+<li>Click the most recent log stream</li>
+<li>Search for <code>error</code> or <code>[job/</code> to find issues</li>
+</ol>
+<h3>Triage failed scrapers</h3>
+<ol>
+<li>Admin dashboard → "Pipeline" sidebar → scraper-health view</li>
+<li>Or Admin → Commercial Network → Scraper Health</li>
+<li>The Sunday 8 AM auto-retire job clears nurseries broken 60+ days; you handle the fixable ones</li>
+</ol>
+<h3>Scale the database</h3>
+<p>If RDS is slow or running out of memory:
+1. AWS Console → RDS → <code>rosebase</code>
+2. Click "Modify"
+3. Change instance class (e.g., db.t4g.medium → db.t4g.large)
+4. Choose "Apply immediately" or schedule for maintenance window</p>
+<hr>
+<h2>What costs money</h2>
+<p><strong>Current: ~$174/month</strong></p>
+<p>The biggest costs are:
+- Database (RDS): ~$50/mo
+- Networking (NAT Gateway): ~$40/mo
+- Compute (ECS Fargate): ~$39/mo
+- Load balancer (ALB): ~$22/mo
+- Backups + Performance Insights: ~$14/mo
+- Storage / misc: ~$9/mo</p>
+<p>You'll get an email if the bill goes above $200, and a louder one at $250.</p>
+<p><strong>To reduce costs:</strong> The database can be scaled down to db.t4g.micro (~$18/mo instead of $50/mo), but the nightly enrichment pipeline might struggle with less memory. Don't drop NAT to one-AZ-only; that's a single point of failure.</p>
+<hr>
+<h2>Things only a developer can do</h2>
+<p>These need someone with code-level access:
+- Fix scraper config when a nursery's website redesigns (CSS selectors break)
+- Add new nurseries to the scraper roster
+- Modify pipeline behavior (job order, schedules, thresholds)
+- Investigate non-trivial errors in logs</p>
+<hr>
+<h2>Emergency contacts</h2>
+<ul>
+<li><strong>Gabe Dymmel</strong> — gdymmel11@gmail.com — handled the AWS migration; available for migration-attributable issues through the 30-day support window (~ends May 23, 2026)</li>
+<li><strong>AWS Support</strong> — AWS Console → Support Center (basic plan is free; can submit account/billing tickets)</li>
+<li><strong>Stripe Support</strong> — https://support.stripe.com (for any payment-related issues)</li>
+</ul>
+<hr>
+<h2>Where to find more</h2>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day-to-day reference</td>
+<td><code>.planning/OPERATIONS-MANUAL.md</code></td>
+</tr>
+<tr>
+<td>Disaster recovery procedure</td>
+<td><code>.planning/HANDOFF.md</code> section 7</td>
+</tr>
+<tr>
+<td>Mechanical handover steps</td>
+<td><code>.planning/upsells/HANDOFF-CHECKLIST.md</code></td>
+</tr>
+<tr>
+<td>AWS resource map</td>
+<td><code>.planning/HANDOFF.md</code></td>
+</tr>
+</tbody>
+</table>
+  <div class="footer">RoseBase &bull; Operations Reference &bull; <a href="./">Migration Progress</a></div>
+</div>
+</body>
+</html>

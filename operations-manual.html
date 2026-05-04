@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoseBase — Operations Manual</title>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #f7f7f5;
+    color: #1b2a4a;
+    margin: 0;
+    padding: 2.5rem 1.25rem 4rem;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  .nav {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  .nav a { color: #2d4a7a; text-decoration: none; }
+  .nav a:hover { text-decoration: underline; }
+
+  h1 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.9rem;
+    color: #0a1628;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.25rem;
+  }
+  .subtitle {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #5a6a85;
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.3rem;
+    color: #1b2a4a;
+    border-bottom: 2px solid #1b2a4a;
+    padding-bottom: 0.4rem;
+    margin: 2.5rem 0 1rem;
+  }
+  h3 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 1.05rem;
+    color: #1b2a4a;
+    margin: 1.5rem 0 0.5rem;
+  }
+  h4 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.95rem;
+    color: #1b2a4a;
+    margin: 1rem 0 0.4rem;
+  }
+  p { margin: 0.6rem 0; }
+  ul, ol { margin: 0.6rem 0 0.6rem 1.5rem; padding: 0; }
+  li { margin: 0.25rem 0; }
+  hr {
+    border: 0;
+    border-top: 1px solid #d0d5dd;
+    margin: 2rem 0;
+  }
+
+  code {
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.85em;
+    background: #eef0f3;
+    color: #1b2a4a;
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+  }
+  pre {
+    background: #0a1628;
+    color: #e2e6ec;
+    padding: 0.85rem 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.85rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid #e2e6ec;
+  }
+  th {
+    background: #f0f1f3;
+    color: #5a6a85;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.72rem;
+    border-bottom: 2px solid #1b2a4a;
+  }
+
+  blockquote {
+    border-left: 3px solid #1a7a4a;
+    background: #fafaf7;
+    padding: 0.6rem 0.95rem;
+    margin: 1rem 0;
+    color: #1b2a4a;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+  }
+
+  a { color: #2d4a7a; }
+  a:hover { color: #1a7a4a; }
+
+  strong { color: #0a1628; }
+
+  .footer {
+    color: #8899ab;
+    font-size: 0.75rem;
+    text-align: center;
+    padding-top: 3rem;
+    margin-top: 3rem;
+    border-top: 1px solid #d0d5dd;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 1.5rem 1rem 3rem; }
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.15rem; }
+    pre { font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav">
+    <a href="./">← Back to migration progress</a>
+    &nbsp;·&nbsp;
+    <a href="./operations-manual.html">Operations Manual</a>
+    &nbsp;·&nbsp;
+    <a href="./ops-cheat-sheet.html">Cheat Sheet</a>
+  </div>
+  <h1>RoseBase — Operations Manual</h1>
+  <p class="subtitle">Full reference covering automation, admin, infrastructure, and troubleshooting</p>
+  <p><strong>Site:</strong> https://rosesroses.com
+<strong>For:</strong> Nick Fritz
+<strong>Maintained by:</strong> Gabe Dymmel (gdymmel11@gmail.com)
+<strong>Updated:</strong> May 3, 2026</p>
+<hr>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#1-quick-reference">Quick Reference</a></li>
+<li><a href="#2-the-site">The Site</a></li>
+<li><a href="#3-daily-operations">Daily Operations</a></li>
+<li><a href="#4-the-nightly-pipeline">The Nightly Pipeline</a></li>
+<li><a href="#5-the-admin-dashboard">The Admin Dashboard</a></li>
+<li><a href="#6-common-tasks-infrastructure">Common Tasks (Infrastructure)</a></li>
+<li><a href="#7-cost--billing">Cost &amp; Billing</a></li>
+<li><a href="#8-troubleshooting">Troubleshooting</a></li>
+<li><a href="#9-backups--security">Backups &amp; Security</a></li>
+<li><a href="#10-glossary">Glossary</a></li>
+<li><a href="#11-contacts--aws-quick-links">Contacts &amp; AWS Quick Links</a></li>
+</ol>
+<hr>
+<h2>1. Quick Reference</h2>
+<table>
+<thead>
+<tr>
+<th>What</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Live site</td>
+<td>https://rosesroses.com</td>
+</tr>
+<tr>
+<td>Admin dashboard</td>
+<td>https://rosesroses.com/admin</td>
+</tr>
+<tr>
+<td>Health check</td>
+<td>https://rosesroses.com/api/healthz</td>
+</tr>
+<tr>
+<td>AWS Console</td>
+<td>console.aws.amazon.com (region: <strong>us-east-1</strong>)</td>
+</tr>
+<tr>
+<td>Source code</td>
+<td>github.com/gdymmel11-ai/Rose-Database</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The site behaves identically to how it ran on Replit.</strong> Same code, same UI, same admin flows. Only the URL and infrastructure changed.</p>
+</blockquote>
+<hr>
+<h2>2. The Site</h2>
+<p><img alt="RosesRoses homepage" src="screenshots/homepage.png"></p>
+<p>The site runs on AWS — Amazon's cloud. The major pieces:</p>
+<ul>
+<li><strong>Frontend</strong> — React app (what visitors see)</li>
+<li><strong>API</strong> — Node.js Express server in a container</li>
+<li><strong>Database</strong> — PostgreSQL with 28,000+ roses</li>
+<li><strong>File storage</strong> — AWS S3 for uploads and images</li>
+<li><strong>Domain &amp; SSL</strong> — Auto-renewed by AWS</li>
+</ul>
+<p>You don't touch any of this directly. The admin dashboard does most of what you need.</p>
+<hr>
+<h2>3. Daily Operations</h2>
+<p><strong>You do nothing daily.</strong> The site runs itself. Alerts arrive by email when something needs attention.</p>
+<table>
+<thead>
+<tr>
+<th>Alarm Email Subject</th>
+<th>Means</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rosebase-app-down</code></td>
+<td>Site is unreachable</td>
+<td>Check the site, see <a href="#8-troubleshooting">Troubleshooting</a></td>
+</tr>
+<tr>
+<td><code>rosebase-alb-5xx-spike</code></td>
+<td>App is throwing errors</td>
+<td>Check logs, may need restart</td>
+</tr>
+<tr>
+<td><code>rosebase-enrichment-no-start</code></td>
+<td>Tonight's enrichment didn't run</td>
+<td>Often self-resolves on next run</td>
+</tr>
+<tr>
+<td><code>rosebase-job-failure-spike</code></td>
+<td>Multiple nightly jobs failed</td>
+<td>Contact developer if persistent</td>
+</tr>
+<tr>
+<td><code>rosebase-playwright-crash</code></td>
+<td>Browser-based scraper crashed</td>
+<td>Often transient; alert if 3+ in an hour</td>
+</tr>
+<tr>
+<td><code>rosebase-billing-200-warning</code></td>
+<td>Bill above $200</td>
+<td>Review costs</td>
+</tr>
+<tr>
+<td><code>rosebase-billing-250-action</code></td>
+<td>Bill above $250</td>
+<td>Investigate immediately</td>
+</tr>
+</tbody>
+</table>
+<p>No email = everything is fine.</p>
+<hr>
+<h2>4. The Nightly Pipeline</h2>
+<p>Automated jobs run on a schedule. Times in Eastern Time.</p>
+<h3>Nightly (every day)</h3>
+<pre><code>02:30  Nursery Audit              Health-checks 1,000+ nurseries
+03:00  Enrichment                 Fills missing rose data via OpenAI
+03:00  Fast-Lane Refresh          Quick re-enrichment of trending roses
+03:00  Session Cleanup            Purges expired user sessions
+03:00  Fragrance Consensus        Aggregates fragrance votes into canonical labels
+03:30  Confidence Accumulation    Adds confidence to candidate signals based on age
+04:00  Catalog Scrape             Updates prices from 115 nursery sites
+04:00  Coverage Snapshot          Captures field-completeness metrics
+04:30  Cover Audit                AI verifies cover photos
+05:01  Deduplication              Merges duplicate rose entries
+05:15  Degraded Escalation        Escalates persistently-failing scrapers
+05:30  Progress Snapshot          Saves daily metrics
+</code></pre>
+<p>Nightly window finishes by ~6:30 AM ET. <strong>Don't deploy code between
+2:00 AM and 6:30 AM ET</strong> — it interferes with the jobs.</p>
+<h3>Weekly</h3>
+<pre><code>Sun 07:00   Variety Photo Audit          AI verifies all variety-level photos
+Sun 08:00   Stale Nursery Auto-Retire    Retires nurseries broken 60+ days (capped at 50/run)
+</code></pre>
+<h3>Monthly</h3>
+<pre><code>1st @ 03:00   Photo Sweep              Sources photos for last month's new roses
+15th @ 02:00  HathiTrust Ingestion     Imports rose names from HathiTrust historical archives
+</code></pre>
+<h3>Quarterly</h3>
+<pre><code>Jan/Apr/Jul/Oct 1st @ 05:00   Patent Application Monitor   Tracks new rose patent filings
+</code></pre>
+<h3>Annual</h3>
+<pre><code>Jan 1 @ 05:00               Annual Patent Refresh         Refreshes all patent records
+</code></pre>
+<h3>Admin-triggered (no fixed schedule)</h3>
+<p>These workers are registered with pg-boss but do not auto-fire. Trigger
+them manually from <code>/admin?section=nightly-ops</code>:</p>
+<ul>
+<li><strong>weekly-dead-url-check</strong> — Re-checks links flagged as broken</li>
+<li><strong>weekly-color-accuracy-audit</strong> — AI re-verifies rose color labels</li>
+<li><strong>weekly-genealogy-audit-verify</strong> — Verifies parent/child rose links</li>
+<li><strong>weekly-photo-workers-mass</strong> — Bulk re-runs photo enrichment</li>
+<li><strong>weekly-inactive-nursery-retry</strong> — Re-attempts dormant nurseries</li>
+<li><strong>weekly-full-pipeline</strong> — Runs the entire nightly pipeline on-demand</li>
+<li><strong>weekly-run-health-audit</strong> — Generates the health-audit report</li>
+<li><strong>monthly-nursery-discovery</strong> — Discovers new nurseries via Serper</li>
+<li><strong>monthly-hybridizer-monitoring</strong> — Refreshes hybridizer profiles</li>
+<li><strong>candidate-triage</strong> — Processes pending rose-candidate queue</li>
+<li><strong>immediate-rose-enrichment</strong> — One-off enrichment for a single rose ID</li>
+</ul>
+<h3>⚠️ Schedule conflict to resolve</h3>
+<p><code>weekly-event-discovery</code> is listed in BOTH <code>schedulesToClear</code> (with
+comment "[SERPER SUSPENDED]") AND in <code>boss.schedule()</code> (fires monthly on
+the 1st @ 06:00 ET). The <code>schedule()</code> call wins — it currently runs
+monthly and costs ~255 Serper queries per run. If this is intentional,
+ignore. If suspended was the intent, remove the <code>boss.schedule()</code> call.
+(Flagged during 2026-05-03 pre-handoff audit — needs Nick's intent.)</p>
+<h3>What to do if a job fails</h3>
+<p>See section 8 — "A nightly job didn't run".</p>
+<hr>
+<h2>5. The Admin Dashboard</h2>
+<p>Sign in at <strong>https://rosesroses.com/admin</strong> with an admin account. The left sidebar lists every section. Below are the most common ones.</p>
+<h3>Orders &amp; Fulfillment</h3>
+<p>Where: <strong>/admin?section=orders</strong></p>
+<p>RosesRoses operates as a <strong>concierge</strong> — customers pay you, you place the order with the nursery on their behalf, the nursery ships directly to the customer. This is a manual workflow you do for each order.</p>
+<p><strong>The status lifecycle:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>What it means</th>
+<th>What you do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Awaiting Payment</strong></td>
+<td>Customer started checkout but hasn't paid</td>
+<td>Nothing — wait for Stripe</td>
+</tr>
+<tr>
+<td><strong>Payment Received</strong></td>
+<td>Customer paid you via Stripe</td>
+<td><strong>Place the order with the nursery, then mark "Ordered from Nursery"</strong></td>
+</tr>
+<tr>
+<td><strong>Ordered from Nursery</strong></td>
+<td>You've placed the order</td>
+<td>Wait for the nursery to ship</td>
+</tr>
+<tr>
+<td><strong>Shipped</strong></td>
+<td>Nursery has shipped to customer</td>
+<td>Wait for delivery</td>
+</tr>
+<tr>
+<td><strong>Delivered</strong></td>
+<td>Customer received the roses</td>
+<td>Done</td>
+</tr>
+<tr>
+<td><strong>Cancelled</strong></td>
+<td>Order cancelled at any stage</td>
+<td>Refund via Stripe if already paid</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How to fulfill an order (typical flow):</strong></p>
+<ol>
+<li><strong>You get an email</strong>: "New order received — Order #1234"</li>
+<li>Open <code>/admin?section=orders</code>. The new order shows <strong>Payment Received</strong>.</li>
+<li>Click into the order. You'll see:
+   - Customer's name, email, shipping address
+   - The rose(s) they ordered, which nursery to buy from, the quantity, the price you owe the nursery
+   - A <strong>Nursery Product URL</strong> link — opens the nursery's product page directly</li>
+<li><strong>Place the order with the nursery</strong> — go to the nursery's website, buy the rose, ship it to the customer's address (not yours).</li>
+<li>Back in the admin order page, paste the nursery's order number into <strong>Nursery Order Number</strong>, change status to <strong>Ordered from Nursery</strong>, and save. The customer gets an email update automatically.</li>
+<li>When the nursery ships, paste the <strong>tracking number</strong> into the order, change status to <strong>Shipped</strong>. Customer gets another email update.</li>
+<li>When the customer confirms delivery (or after a reasonable wait), mark <strong>Delivered</strong>. Done.</li>
+</ol>
+<p><strong>How payment works:</strong></p>
+<ul>
+<li>Customer pays the full amount (rose price + shipping + tax + your service fee) to you via Stripe.</li>
+<li>The money lands in your Stripe account, then transfers to your bank account on Stripe's payout schedule (typically 2 business days).</li>
+<li>You pay the nursery out of pocket when you place the order. The customer's payment plus your service fee covers the cost + your margin.</li>
+<li>If you ever need to refund, do it from the Stripe dashboard (<a href="https://dashboard.stripe.com">dashboard.stripe.com</a>) — the order status here doesn't auto-refund.</li>
+</ul>
+<p><strong>Adjusting your service fee:</strong></p>
+<p>Where: <strong>Admin &gt; Commercial &gt; Sales tab &gt; Service fee settings</strong></p>
+<p>You control your cut from this screen — toggle between a percentage (e.g., 15%) or a flat dollar amount (e.g., $4 per order), and change it any time. The value applies to all new orders going forward; existing orders keep whatever fee was active at checkout.</p>
+<h3>Adding or Managing Nurseries</h3>
+<p>Where: <strong>/admin?section=commercial&amp;tab=cn-nurseries</strong></p>
+<p>Lists every nursery in the database. Click one to:</p>
+<ul>
+<li>Edit name, website, country, state</li>
+<li>Set scraper config (which CSS selectors to use)</li>
+<li>Set tier (Gold / Silver / Bronze) — affects auto-approval threshold</li>
+<li>Mark as active/inactive or block</li>
+</ul>
+<p>To <strong>add a new nursery</strong>:
+1. Click <strong>Add Nursery</strong>
+2. Fill in name, country, website
+3. Save — the next nightly catalog scrape will start scraping it</p>
+<h3>Approving Nursery Submissions</h3>
+<p>Where: <strong>/admin?section=nurseries&amp;tab=submissions</strong></p>
+<p>When users submit nurseries via the public submission form, they land here as <strong>Pending</strong>. Review:</p>
+<ul>
+<li>Nursery name, website, country</li>
+<li>Submitter name (so you can credit/contact them)</li>
+</ul>
+<p>Click <strong>Approve</strong> to add it to the active nursery list, or <strong>Reject</strong> with a reason.</p>
+<h3>Moderation Queue</h3>
+<p>Where: <strong>/admin?section=moderation-queue</strong></p>
+<p>Centralized queue for everything user-submitted that needs review:</p>
+<ul>
+<li><strong>Comments</strong> — already public, but you can delete abusive ones</li>
+<li><strong>Fact proposals</strong> — corrections users want to make to rose data</li>
+<li><strong>Directory proposals</strong> — new hybridizers, distributors, growers</li>
+<li><strong>Photo uploads</strong> — pending photos for roses</li>
+<li><strong>Genealogy proposals</strong> — submitted parent/offspring relationships</li>
+</ul>
+<p>Each row has <strong>Approve</strong> and <strong>Reject</strong> buttons. Approved entries become live; rejected ones are removed.</p>
+<h3>Candidate Queue (AI-Discovered Roses)</h3>
+<p>Where: <strong>/admin?section=candidate-queue</strong></p>
+<p>The nightly scrapers discover new rose names from nursery websites. Names that aren't already in the database land here.</p>
+<ul>
+<li><strong>Auto-approved</strong> candidates from Gold/Silver-tier nurseries skip this and go straight in</li>
+<li><strong>Pending</strong> candidates need your review — confirm "yes this is a real rose" or reject</li>
+</ul>
+<p>The <strong>Confidence Score</strong> column tells you how sure the system is. Anything ≥50 is usually safe to approve.</p>
+<h3>Coverage Dashboard</h3>
+<p>Where: <strong>/admin?section=coverage</strong></p>
+<p>A single view of pipeline health: how many roses, how many nurseries are active vs broken, listings count, growth trends. Useful as a daily glance.</p>
+<h3>Manually Triggering a Nightly Job</h3>
+<p>Where: <strong>/admin?section=nightly-ops</strong></p>
+<p>Run any nightly job on demand — useful when:
+- A scrape failed and you want to re-run it
+- You added a nursery and want it scraped now (don't wait until 4 AM)
+- You're testing pipeline changes</p>
+<p>Click the job name and confirm. Watch progress in the same panel.</p>
+<h3>Suspending an Abusive User</h3>
+<p>Where: <strong>/admin?section=user-support</strong></p>
+<p>Search for a user by email, click into their profile, <strong>Suspend</strong> with a reason. They're immediately logged out and can't sign in until you unsuspend.</p>
+<hr>
+<h2>6. Common Tasks (Infrastructure)</h2>
+<h3>Restart the App</h3>
+<p>Sometimes a restart fixes weird issues:</p>
+<pre><code>aws ecs update-service --cluster rosebase --service rosebase-api --force-new-deployment --region us-east-1
+</code></pre>
+<p>Takes ~2 minutes. No downtime.</p>
+<h3>Deploy a Code Change</h3>
+<ol>
+<li>Push to the <code>main</code> branch on GitHub</li>
+<li>GitHub auto-builds and deploys (~10-15 min)</li>
+<li><strong>Don't deploy between 2:00–6:30 AM ET</strong></li>
+</ol>
+<h3>Update an API Key (Stripe, OpenAI, etc.)</h3>
+<ol>
+<li>AWS Console → search <strong>Secrets Manager</strong></li>
+<li>Find the secret (e.g., <code>rosebase/openai-api-key</code>)</li>
+<li>Click → <strong>Retrieve secret value</strong> → <strong>Edit</strong></li>
+<li>Paste new value, save</li>
+<li>Restart the app (above)</li>
+</ol>
+<h3>View Logs</h3>
+<ul>
+<li>Terminal: <code>aws logs tail /ecs/rosebase --follow --region us-east-1</code></li>
+<li>AWS Console: <strong>CloudWatch</strong> → Log groups → <code>/ecs/rosebase</code></li>
+</ul>
+<hr>
+<h2>7. Cost &amp; Billing</h2>
+<p><strong>Estimate: ~$185-190/month</strong></p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Approx</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Database (RDS)</td>
+<td>$50</td>
+</tr>
+<tr>
+<td>Networking</td>
+<td>$40</td>
+</tr>
+<tr>
+<td>Compute (Fargate)</td>
+<td>$39</td>
+</tr>
+<tr>
+<td>Load balancer</td>
+<td>$22</td>
+</tr>
+<tr>
+<td>WAF (firewall)</td>
+<td>$10</td>
+</tr>
+<tr>
+<td>Storage, Backups, Monitoring</td>
+<td>$15</td>
+</tr>
+<tr>
+<td>Domain DNS, certs</td>
+<td>$1</td>
+</tr>
+</tbody>
+</table>
+<p>Email alerts at <strong>$200</strong> (warning) and <strong>$250</strong> (investigate).</p>
+<p>To check current month: AWS Console → search <strong>Billing</strong>.</p>
+<hr>
+<h2>8. Troubleshooting</h2>
+<h3>Site won't load / errors</h3>
+<ol>
+<li>Visit <code>https://rosesroses.com/api/healthz</code>. Should show <code>{"status":"ok"}</code>.</li>
+<li>AWS Console → <strong>ECS</strong> → <code>rosebase</code> cluster → events tab. Look for crash messages.</li>
+<li><strong>CloudWatch Logs</strong> → <code>/ecs/rosebase</code> — search for <code>error</code> near the time.</li>
+<li>Restart the app (Section 6).</li>
+<li>If still broken, contact a developer.</li>
+</ol>
+<h3>Database is slow</h3>
+<ul>
+<li>AWS Console → <strong>RDS</strong> → <code>rosebase</code> → Monitoring tab</li>
+<li>If CPU consistently &gt;80%, scale up: <strong>Modify</strong> → instance class → <code>db.t4g.large</code></li>
+<li>5-10 min downtime during the change</li>
+</ul>
+<h3>A nightly job didn't run</h3>
+<ul>
+<li>You'll get an alert email automatically</li>
+<li>Check CloudWatch logs at the expected time (02:30-05:30 ET)</li>
+<li>Most jobs <strong>auto-recover the next night</strong> thanks to checkpoint logic</li>
+<li>Contact developer if a job fails 3+ nights in a row</li>
+</ul>
+<hr>
+<h2>9. Backups &amp; Security</h2>
+<p><strong>Backups happen automatically.</strong> The database is backed up daily, kept for 30 days. Files in S3 are versioned, so deleted ones can be recovered for 30 days. If you ever need to actually restore from a backup, <strong>call your developer</strong> — it's a rare event and not something to do casually.</p>
+<p><strong>Security is already configured.</strong> HTTPS everywhere, a firewall blocking common attacks, API keys locked in AWS Secrets Manager, and an audit log of every AWS action. If you suspect a security incident (someone stole a password, unusual activity, etc.), <strong>call your developer immediately</strong> — don't try to fix it yourself.</p>
+<h2>10. Glossary</h2>
+<p>For non-technical readers — what these terms mean:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What It Is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>AWS</strong></td>
+<td>Amazon Web Services. The cloud platform hosting your site.</td>
+</tr>
+<tr>
+<td><strong>Region</strong></td>
+<td>A geographic location of AWS data centers. Yours is <code>us-east-1</code> (N. Virginia).</td>
+</tr>
+<tr>
+<td><strong>Console</strong></td>
+<td>The AWS web interface — like a control panel for your infrastructure.</td>
+</tr>
+<tr>
+<td><strong>ECS</strong></td>
+<td>Elastic Container Service. The thing that runs your app.</td>
+</tr>
+<tr>
+<td><strong>Fargate</strong></td>
+<td>The "serverless" mode for ECS — AWS manages the underlying servers.</td>
+</tr>
+<tr>
+<td><strong>Container</strong></td>
+<td>A package of your code + everything it needs to run.</td>
+</tr>
+<tr>
+<td><strong>Task</strong></td>
+<td>A single running instance of your container. You have 1 task running.</td>
+</tr>
+<tr>
+<td><strong>Service</strong></td>
+<td>The configuration that keeps your task running (auto-restarts on crash).</td>
+</tr>
+<tr>
+<td><strong>RDS</strong></td>
+<td>Relational Database Service. The PostgreSQL database.</td>
+</tr>
+<tr>
+<td><strong>S3</strong></td>
+<td>Simple Storage Service. Where files and images are stored.</td>
+</tr>
+<tr>
+<td><strong>ALB</strong></td>
+<td>Application Load Balancer. Routes incoming traffic to your app.</td>
+</tr>
+<tr>
+<td><strong>VPC</strong></td>
+<td>Virtual Private Cloud. Your isolated network in AWS.</td>
+</tr>
+<tr>
+<td><strong>NAT Gateway</strong></td>
+<td>Lets your private servers reach the internet (e.g., to scrape sites).</td>
+</tr>
+<tr>
+<td><strong>Route 53</strong></td>
+<td>AWS's DNS service — converts <code>rosesroses.com</code> to an IP address.</td>
+</tr>
+<tr>
+<td><strong>ACM</strong></td>
+<td>AWS Certificate Manager. Provides the SSL certificate (the padlock icon).</td>
+</tr>
+<tr>
+<td><strong>WAF</strong></td>
+<td>Web Application Firewall. Blocks attacks and abusive traffic.</td>
+</tr>
+<tr>
+<td><strong>Secrets Manager</strong></td>
+<td>A safe place for API keys and passwords (encrypted, audited).</td>
+</tr>
+<tr>
+<td><strong>CloudWatch</strong></td>
+<td>AWS's monitoring system. Stores logs, sends alerts.</td>
+</tr>
+<tr>
+<td><strong>CloudTrail</strong></td>
+<td>Audit log of every action taken in AWS.</td>
+</tr>
+<tr>
+<td><strong>CI/CD</strong></td>
+<td>Continuous Integration / Continuous Deployment. Auto-deploys your code.</td>
+</tr>
+<tr>
+<td><strong>GitHub Actions</strong></td>
+<td>The system that runs CI/CD when you push code.</td>
+</tr>
+<tr>
+<td><strong>DNS</strong></td>
+<td>The phone book of the internet. Maps domain names to IP addresses.</td>
+</tr>
+<tr>
+<td><strong>Sitemap</strong></td>
+<td>A file listing every page on your site so search engines can find them.</td>
+</tr>
+<tr>
+<td><strong>API</strong></td>
+<td>Application Programming Interface. The "backend" the frontend talks to.</td>
+</tr>
+<tr>
+<td><strong>pg-boss</strong></td>
+<td>A library that runs scheduled jobs (the nightly pipeline).</td>
+</tr>
+<tr>
+<td><strong>Stripe</strong></td>
+<td>The company that processes credit card payments.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>11. Contacts &amp; AWS Quick Links</h2>
+<h3>Contacts</h3>
+<table>
+<thead>
+<tr>
+<th>For…</th>
+<th>Contact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code, deploys, infrastructure</td>
+<td>Gabe Dymmel — gdymmel11@gmail.com</td>
+</tr>
+<tr>
+<td>AWS billing or account issues</td>
+<td>AWS Support (Console → Support Center)</td>
+</tr>
+<tr>
+<td>Stripe (payments)</td>
+<td>Stripe Dashboard → Help</td>
+</tr>
+<tr>
+<td>Domain</td>
+<td>GoDaddy support</td>
+</tr>
+</tbody>
+</table>
+<h3>AWS Console Quick Links</h3>
+<p>After signing in to AWS Console (us-east-1), use the top search bar:</p>
+<table>
+<thead>
+<tr>
+<th>Search for…</th>
+<th>Use it for…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ECS</strong> → rosebase cluster → rosebase-api</td>
+<td>App status, restart</td>
+</tr>
+<tr>
+<td><strong>RDS</strong> → rosebase</td>
+<td>Database health, scaling</td>
+</tr>
+<tr>
+<td><strong>CloudWatch</strong> → Log groups → /ecs/rosebase</td>
+<td>Application logs</td>
+</tr>
+<tr>
+<td><strong>CloudWatch</strong> → Alarms</td>
+<td>All monitoring alerts</td>
+</tr>
+<tr>
+<td><strong>Secrets Manager</strong></td>
+<td>API keys, passwords</td>
+</tr>
+<tr>
+<td><strong>Route 53</strong> → Hosted zones → rosesroses.com</td>
+<td>DNS records</td>
+</tr>
+<tr>
+<td><strong>AWS Backup</strong></td>
+<td>Disaster recovery</td>
+</tr>
+<tr>
+<td><strong>WAF &amp; Shield</strong> → Web ACLs → rosebase-waf</td>
+<td>Firewall rules</td>
+</tr>
+<tr>
+<td><strong>CloudTrail</strong> → Event history</td>
+<td>Audit log</td>
+</tr>
+<tr>
+<td><strong>Billing</strong></td>
+<td>Cost dashboard</td>
+</tr>
+</tbody>
+</table>
+  <div class="footer">RoseBase &bull; Operations Reference &bull; <a href="./">Migration Progress</a></div>
+</div>
+</body>
+</html>
