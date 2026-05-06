@@ -126,8 +126,8 @@
 <body>
 
 <h1>RoseBase AWS Migration</h1>
-<p class="subtitle">Replit to AWS &mdash; 8-Phase Production Cutover</p>
-<p class="updated">Prepared by Gabe Dymmel &bull; Updated May 4, 2026 &bull; Day 19/21 (transfer) &bull; Day 3/30 (support window)</p>
+<p class="subtitle">Replit to AWS &mdash; 8-Phase Production Cutover &bull; Support Window Wrap-Up &bull; SEO Engagement</p>
+<p class="updated">Prepared by Gabe Dymmel &bull; Updated May 6, 2026 &bull; Migration complete &bull; Day 13/30 (support window)</p>
 
 <!-- Completion Banner -->
 <div class="complete-banner">
@@ -140,22 +140,22 @@
   <div class="live-dot"></div>
   <div>
     <div class="live-text">Live at <a href="https://rosesroses.com" style="color: #1a7a4a;">https://rosesroses.com</a></div>
-    <div class="live-detail">32,849+ roses &bull; Stripe live mode &bull; All automation running &bull; Backups verified &bull; Monitoring tuned</div>
+    <div class="live-detail">38,520+ roses &bull; Stripe live mode &bull; All automation running &bull; Backups verified &bull; Monitoring tuned</div>
   </div>
 </div>
 
 <!-- Key Stats -->
 <div class="stats-row">
   <div class="stat-card">
-    <div class="stat-value">32,849</div>
+    <div class="stat-value">38,520</div>
     <div class="stat-label">Roses Serving</div>
   </div>
   <div class="stat-card">
-    <div class="stat-value">35+</div>
+    <div class="stat-value">50+</div>
     <div class="stat-label">Issues Found &amp; Fixed</div>
   </div>
   <div class="stat-card">
-    <div class="stat-value">9</div>
+    <div class="stat-value">33+</div>
     <div class="stat-label">PRs Shipped</div>
   </div>
 </div>
@@ -281,7 +281,7 @@
   <div class="auto-card">
     <div class="auto-name">Stale Nursery Auto-Retire</div>
     <div class="auto-time">08:00 ET Sundays</div>
-    <div class="auto-status auto-new">New &mdash; first run May 5</div>
+    <div class="auto-status auto-ok">Verified &mdash; ran May 5, 7 retired (238 &rarr; 231)</div>
   </div>
   <div class="auto-card">
     <div class="auto-name">Patent Application Monitor</div>
@@ -295,37 +295,135 @@
   </div>
 </div>
 
-<!-- Available Upgrades -->
-<div class="section-title">Available Upgrades</div>
-<p style="font-size: 0.85rem; color: #5a6a85; margin-bottom: 1.25rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">Optional follow-on engagements. Site is fully production-ready as-is &mdash; these are for if you want to push further. Take it or leave it; no pressure.</p>
+<!-- Support Window Wrap-Up -->
+<div class="section-title">Wrapping Up Under Support Window</div>
+<p style="font-size: 0.85rem; color: #5a6a85; margin-bottom: 1.25rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">All items in this section are <strong>included free</strong> under your existing 30-day support window from the original $8,500 engagement. Shipping this week alongside the new SEO engagement so everything lands together.</p>
+
+<div class="bonus" style="border-color: #1a7a4a;">
+  <div class="bonus-header">
+    <span class="bonus-tag">Included &mdash; No Charge</span>
+    <div class="bonus-title">Migration Cleanup &amp; Daily-Use Polish</div>
+  </div>
+  <p class="bonus-intro">Items raised in our May 6 call &mdash; covered under your existing support window. Delivers alongside the SEO engagement this week.</p>
+
+  <div class="bonus-group">
+    <div class="bonus-group-title">Order Flow Polish</div>
+    <ul class="bonus-items">
+      <li><strong>Remove nursery notification email</strong>
+        <span class="detail">Orders flow only triggers customer confirmation + admin fulfillment notification going forward. No outbound email to the nursery.</span>
+      </li>
+      <li><strong>Order email recipients UI</strong>
+        <span class="detail">Admin panel where you add/remove email addresses for the admin notification. Only addresses you select receive notifications &mdash; no automatic default to your inbox unless you put it on the list. Non-admins can be added without granting admin access.</span>
+      </li>
+      <li><strong>Order email content customization</strong>
+        <span class="detail">Make support email and key strings in the templates editable from admin without touching code.</span>
+      </li>
+      <li><strong>Commercial &gt; Orders enhancement</strong>
+        <span class="detail">Surface seller name, price range across nurseries (cheapest available to most expensive), and indicate which nursery is the "hot" pick. Order detail drawer gets the same treatment.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="bonus-group">
+    <div class="bonus-group-title">Admin Daily-Use Polish</div>
+    <ul class="bonus-items">
+      <li><strong>New admin homepage for daily operations</strong>
+        <span class="detail">Clean, minimal landing page that surfaces only what you actually need to check daily: orders waiting, scraper health summary, key metrics, alerts. Replaces the cluttered current view.</span>
+      </li>
+      <li><strong>Archive scrape-deep tooling</strong>
+        <span class="detail">One-time backfill panels and Replit-era diagnostics get buried into a "deep tools" section so they're accessible but out of your daily workflow.</span>
+      </li>
+      <li><strong>Admin role management button</strong>
+        <span class="detail">Button in the People admin portal where you can grant or remove admin access for any user, no developer needed.</span>
+      </li>
+      <li><strong>Moderation queue polish</strong>
+        <span class="detail">Clean up the user suggestion approval flow (events, photos, fact proposals) so review and approval is faster and more obvious.</span>
+      </li>
+      <li><strong>Calendar + events audit</strong>
+        <span class="detail">Review the design, functionality, and worker efficiency. Written set of suggestions delivered, easy improvements shipped. Deeper rework can be its own engagement if needed.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="bonus-group">
+    <div class="bonus-group-title">Bulk Rose Import (the 26k CSV)</div>
+    <ul class="bonus-items">
+      <li><strong>Strict CSV template</strong>
+        <span class="detail">Designed for repeated use &mdash; take any source (book scans, registries, AI-extracted lists), have ChatGPT or Claude reformat the data into the template, upload.</span>
+      </li>
+      <li><strong>Encyclopedia-depth field coverage</strong>
+        <span class="detail">Captures every reasonable rose field (name, hybridizer, year, class, color, fragrance, height, hardiness zones, patents, synonyms, etc.) so we maximize indexable depth.</span>
+      </li>
+      <li><strong>Fuzzy name-matching + dry-run</strong>
+        <span class="detail">Matches against existing 38k roses, dry-run preview shows full impact before commit, never overwrites existing data with empty cells.</span>
+      </li>
+      <li><strong>Merge-roses logic fix</strong>
+        <span class="detail">Today's merge logic adds the merged-out rose to a blocklist that prevents scrapers from re-discovering it. Changing this so duplicates can be cleaned without blocking re-discovery &mdash; scrapers can pick them up again and merge cleanly without losing data or listings.</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="bonus-group">
+    <div class="bonus-group-title">Branding Cleanup</div>
+    <ul class="bonus-items">
+      <li><strong>Marketing video re-render</strong>
+        <span class="detail">Source code is updated to show rosesroses.com instead of rosebase, but the actual rendered video file still shows the old URL. Re-rendering and replacing.</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- New SEO Engagement -->
+<div class="section-title">New Engagement &mdash; Search Engine Optimization</div>
+<p style="font-size: 0.85rem; color: #5a6a85; margin-bottom: 1.25rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">The original engagement scope explicitly excluded SEO (Section 2.2 of the agreement). This is a separate engagement designed to make the encyclopedia depth of the site visible to Google.</p>
 
 <div class="upgrade-card primary">
-  <span class="upgrade-tag">Recommended</span>
-  <div class="upgrade-name">SEO + Polish Package</div>
-  <div class="upgrade-price">$2,200<small>~3-4 days</small></div>
-  <p class="upgrade-pitch">Combines the SEO foundation with the remaining cleanup items. Right now the React SPA hides almost everything from Google &mdash; this fixes that, plus tightens the operational loose ends.</p>
+  <span class="upgrade-tag">New Engagement</span>
+  <div class="upgrade-name">Search Engine Optimization Package</div>
+  <div class="upgrade-price">$3,000<small>~5 days</small></div>
+  <p class="upgrade-pitch">Right now the React SPA hides almost everything from Google &mdash; 38,520 roses, plus maladies, hybridizers, nurseries, growers, distributors, and rose types are largely invisible to search. This fixes that across all 13+ entity types and adds a content moat via blogs.</p>
   <ul class="upgrade-list">
-    <li><strong>Server-side rendering / pre-rendering</strong> &mdash; the biggest unlock. Lets Google actually read all 32,849 rose pages.</li>
-    <li>Title + meta description templates per page (auto-generated, customizable per page)</li>
-    <li>Image SEO &mdash; alt text audit + auto-generation, image sitemap, lazy loading</li>
-    <li>Google Search Console + sitemap submission</li>
-    <li>GA4 analytics with conversion funnel events (cart-add, checkout-start, purchase)</li>
-    <li>Triage + clean up the failed scrapers showing in the admin dashboard</li>
-    <li>Resolve <code>weekly-event-discovery</code> schedule conflict + wire up the 11 invisible workers in admin run-health view</li>
+    <li><strong>Server-side meta + structured data on rose pages</strong> &mdash; the biggest unlock. Lets Google actually read all 38,520+ rose varieties (and the 26k+ being imported).</li>
+    <li><strong>Schema.org Product markup</strong> &mdash; structured product data with offers from each nursery selling that variety</li>
+    <li><strong>Entity-page SEO for 6 currently-invisible content types</strong> &mdash; maladies, hybridizers, nurseries, growers, distributors, rose types. Each with appropriate schema (LocalBusiness for nurseries, Person for hybridizers, etc.)</li>
+    <li><strong>Expanded sitemap</strong> covering all entity types so Google has a complete crawl map</li>
+    <li><strong>Search Console + Bing Webmaster + GA4</strong> with conversion event tracking (purchases, signups, search activity)</li>
+    <li><strong>Open Graph share image</strong> so links shared via text or social display the logo and tagline cleanly. Currently nothing previews.</li>
+    <li><strong>Blog section under Library</strong> &mdash; admin-uploadable content type. You and other admins post articles, research, and reference content. SEO-optimized routes, sitemap inclusion. The encyclopedia content moat for long-tail search.</li>
   </ul>
   <div class="upgrade-outcome">
-    <strong>Outcome:</strong> Top rose pages start ranking for "[rose name]" searches in 6-12 weeks. You can SEE what users do (analytics). Admin dashboard goes fully green.
+    <strong>Outcome:</strong> Top rose pages start ranking for "[rose name]" searches in 6-12 weeks. All 13+ content types become indexable. Link previews work cleanly when shared. Search Console + GA4 show you what users do.
   </div>
-  <div class="upgrade-meta">Ongoing infra: ~$30/mo (Prerender.io) &bull; 50% on start, 50% on delivery</div>
+  <div class="upgrade-meta">50% on start, 50% on delivery &bull; Net 7 each &bull; Ongoing infra: included in existing AWS costs</div>
 </div>
 
 <!-- Bonus Work -->
 <div class="bonus">
   <div class="bonus-header">
     <span class="bonus-tag">Already Shipped</span>
-    <div class="bonus-title">Bonus Work &mdash; No Extra Charge</div>
+    <div class="bonus-title">Bonus Work &mdash; Already Live</div>
   </div>
-  <p class="bonus-intro">All of these were outside the original migration scope but were caught and fixed during the pre-handoff audit and shipped at no charge. Everything below is <strong>already live in production</strong>.</p>
+  <p class="bonus-intro">All of these were outside the original migration scope but caught and fixed during the pre-handoff audit + the post-cutover support window. Everything below is <strong>already live in production</strong>.</p>
+
+  <div class="bonus-group">
+    <div class="bonus-group-title">This Week (May 5-6) &mdash; Post-Call Cleanup</div>
+    <ul class="bonus-items">
+      <li><strong>Three rounds of dead-link bug fixes (PRs #29, #30, #31, #32)</strong>
+        <span class="detail">Two separate typo'd domains (rosebase.app and rosebase.com) were scattered through customer order emails, the verification email flow, admin email links, marketing video URLs, and 17 scraper user-agents. 42 references replaced across 35 files. The reason a working order email had never been seen was the rosebase.com typo in the email templates &mdash; fixed.</span>
+      </li>
+      <li><strong>Email verification redirect fix (PR #30)</strong>
+        <span class="detail">The post-verify redirect was sending users to a dead domain. Verification was actually succeeding in the database, but users landed on a broken page so they assumed it failed. Now redirects to rosesroses.com cleanly.</span>
+      </li>
+      <li><strong>Scrape health admin headline correction</strong>
+        <span class="detail">The admin Commercial &gt; Nurseries page showed "5,965 need attention" which was alarming &mdash; but 5,736 of those were already-retired nurseries being incorrectly counted. Headline now correctly separates active from inactive: shows the real actionable number (~575) with retired count broken out.</span>
+      </li>
+      <li><strong>New favicon</strong>
+        <span class="detail">Lucide leaf in primary green, matches the navbar logo. Replaces the previous rose-on-cream favicon.</span>
+      </li>
+      <li><strong>Search bar polish</strong>
+        <span class="detail">Right-arrow submit button, Enter-key handler, loading spinner. Search behaviour now matches what users expect.</span>
+    </ul>
+  </div>
 
   <div class="bonus-group">
     <div class="bonus-group-title">Frontend &amp; UX</div>
@@ -435,25 +533,47 @@
 <div class="actions" id="action-list">
   <div class="action-item-wrap">
     <label class="action-item">
-      <input type="checkbox" data-id="transfer" onchange="saveState()">
-      <span class="action-text">Confirm GitHub repo transfer is OK to initiate</span>
+      <input type="checkbox" data-id="confirm-scope" onchange="saveState()">
+      <span class="action-text">Confirm the SEO engagement scope and $3,000 pricing</span>
     </label>
     <details class="action-details">
       <summary>What this means</summary>
-      <p>I'll transfer the repo to your GitHub account (nickfritz1978). You'll get an email from GitHub to accept &mdash; click within 24 hours or it expires. After accept, please re-add gdymmel11-ai as a collaborator so I can ship hotfixes during the support window.</p>
+      <p>Reply with confirmation that the SEO engagement scope above (server-side meta, structured data, entity-page SEO across 6 content types, Search Console, Bing, GA4, OG share image, blog infrastructure) and $3,000 flat pricing look right. Anything missing from our call discussion that needs adjusting?</p>
     </details>
-    <textarea class="action-reply" placeholder="Confirm or ask questions..." oninput="saveState()"></textarea>
+    <textarea class="action-reply" placeholder="Yes / no / questions..." oninput="saveState()"></textarea>
   </div>
   <div class="action-item-wrap">
     <label class="action-item">
-      <input type="checkbox" data-id="upgrade" onchange="saveState()">
-      <span class="action-text">Decide on the SEO + Polish upgrade ($2,200)</span>
+      <input type="checkbox" data-id="test-order" onchange="saveState()">
+      <span class="action-text">Place a test order to verify the email flow</span>
     </label>
     <details class="action-details">
       <summary>What this means</summary>
-      <p>Either is take-it-or-leave-it. Site is fully production-ready as-is. If you want to push for organic search visibility and convert outbound traffic into passive revenue, this is the natural next step. If you'd rather just take ownership and run with what's there, just say so.</p>
+      <p>Place a small test order on rosesroses.com whenever convenient. You should receive a customer confirmation email immediately and an admin fulfillment email at fritzcompanies@gmail.com. Reply with whether the format and content work for you, or flag any tweaks before I dial in adjustments during the support window wrap-up work.</p>
     </details>
-    <textarea class="action-reply" placeholder="Yes / no / questions..." oninput="saveState()"></textarea>
+    <textarea class="action-reply" placeholder="Placed / observations..." oninput="saveState()"></textarea>
+  </div>
+  <div class="action-item-wrap">
+    <label class="action-item">
+      <input type="checkbox" data-id="event-worker" onchange="saveState()">
+      <span class="action-text">Decision on the weekly-event-discovery worker</span>
+    </label>
+    <details class="action-details">
+      <summary>What this means</summary>
+      <p>The weekly-event-discovery worker is currently configured as both suspended and scheduled (config conflict). About $5/month in Serper queries either way. Keep it running monthly, or kill the schedule? Either way I'll address it during the calendar audit. 30-second decision.</p>
+    </details>
+    <textarea class="action-reply" placeholder="Keep monthly / kill schedule..." oninput="saveState()"></textarea>
+  </div>
+  <div class="action-item-wrap">
+    <label class="action-item">
+      <input type="checkbox" data-id="payment" onchange="saveState()">
+      <span class="action-text">Send migration final ($4,000) + first SEO invoice ($1,500)</span>
+    </label>
+    <details class="action-details">
+      <summary>What this means</summary>
+      <p>Migration final $4,000 ready for Zelle transfer through SECU today. First half of the new SEO engagement is $1,500 (50/50 split, net 7 each). Total $5,500 needed before Thursday May 7 kickoff. Final $1,500 SEO invoice on delivery (target Sunday/Monday May 10-11).</p>
+    </details>
+    <textarea class="action-reply" placeholder="Confirm sent / questions..." oninput="saveState()"></textarea>
   </div>
   <div class="action-item-wrap">
     <label class="action-item">
@@ -465,17 +585,6 @@
       <p>You should have received an email from AWS Notifications asking you to confirm subscription to the rosebase-billing-alerts SNS topic. Click the confirmation link so you start receiving operational alerts directly. (I'll unsubscribe myself once the support window ends in late May.)</p>
     </details>
     <textarea class="action-reply" placeholder="Confirmed / not yet..." oninput="saveState()"></textarea>
-  </div>
-  <div class="action-item-wrap">
-    <label class="action-item">
-      <input type="checkbox" data-id="invoice" onchange="saveState()">
-      <span class="action-text">Final $4,000 invoice incoming after handoff meeting</span>
-    </label>
-    <details class="action-details">
-      <summary>What this means</summary>
-      <p>Per agreement Section 3.2: second payment due at production cutover or day 21, whichever comes first. Cutover was approximately April 23. I'll send the final invoice after we wrap up the handoff. The 30-day support window is already in flight and runs through approximately May 23, 2026.</p>
-    </details>
-    <textarea class="action-reply" placeholder="Anything to flag..." oninput="saveState()"></textarea>
   </div>
 </div>
 
